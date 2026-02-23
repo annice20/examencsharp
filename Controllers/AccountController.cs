@@ -1,0 +1,132 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using examencsharp.Models;
+using examencsharp.Services;
+
+namespace examencsharp.Controllers
+{
+    public class AccountController : Controller
+    {
+        private readonly ApplicationDbContext _context;
+        private readonly EmailService _emailService;
+
+        public AccountController(ApplicationDbContext context)
+        {
+            _context = context;
+            _emailService = new EmailService();
+        }
+
+        // LOGIN GET
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        // LOGIN POST
+        [HttpPost]
+        public IActionResult Login(string email, string password)
+        {
+            var user = _context.Utilisateurs.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                ViewBag.Error = "Email ou mot de passe incorrect";
+                return View();
+            }
+
+            var hasher = new PasswordHasher<Utilisateur>();
+            var result = hasher.VerifyHashedPassword(user, user.MotDePasse, password);
+
+            if (result == PasswordVerificationResult.Failed)
+            {
+                ViewBag.Error = "Email ou mot de passe incorrect";
+                return View();
+            }
+
+            // Génération du code 2FA
+            string code = new Random().Next(100000, 999999).ToString();
+            user.Code2FA = code;
+            user.Expiration2FA = DateTime.Now.AddMinutes(5);
+            _context.SaveChanges();
+
+            _emailService.EnvoyerCode(user.Email, code);
+
+            HttpContext.Session.SetInt32("UserId2FA", user.Id);
+
+            return RedirectToAction("Verify2FA");
+        }
+
+        // VERIFY 2FA GET
+        public IActionResult Verify2FA()
+        {
+            return View();
+        }
+
+        // VERIFY 2FA POST
+        [HttpPost]
+        public IActionResult Verify2FA(string code)
+        {
+            int? userId = HttpContext.Session.GetInt32("UserId2FA");
+            if (userId == null) return RedirectToAction("Login");
+
+            var user = _context.Utilisateurs.Find(userId);
+
+            if (user.Code2FA == code && user.Expiration2FA > DateTime.Now)
+            {
+                HttpContext.Session.Remove("UserId2FA");
+                HttpContext.Session.SetString("user", user.Email);
+
+                return RedirectToAction("Index", "Home"); // Crée un HomeController pour tester
+            }
+
+            ViewBag.Error = "Code invalide ou expiré";
+            return View();
+        }
+
+        // LOGOUT
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
+        }
+
+        // REGISTER GET
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        // REGISTER POST
+        [HttpPost]
+        public IActionResult Register(string email, string password, string confirmPassword)
+        {
+            if (password != confirmPassword)
+            {
+                ViewBag.Error = "Les mots de passe ne correspondent pas";
+                return View();
+            }
+
+            if (_context.Utilisateurs.Any(u => u.Email == email))
+            {
+                ViewBag.Error = "Cet email existe déjà";
+                return View();
+            }
+
+            var hasher = new PasswordHasher<Utilisateur>();
+
+            var user = new Utilisateur
+            {
+                Email = email
+            };
+
+            user.MotDePasse = hasher.HashPassword(user, password);
+
+            _context.Utilisateurs.Add(user);
+            _context.SaveChanges();
+
+            ViewBag.Success = "Inscription réussie ! Vous pouvez vous connecter.";
+
+            return RedirectToAction("Login");
+        }
+    }
+}
