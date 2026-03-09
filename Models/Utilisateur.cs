@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace examencsharp.Models
@@ -13,7 +12,12 @@ namespace examencsharp.Models
         [Required]
         public string MotDePasse { get; set; }
 
+        [Required]
+        public string Role { get; set; }
+
         public string? Code2FA { get; set; }
         public DateTime? Expiration2FA { get; set; }
+
+        public Citoyen? Citoyen { get; set; }
     }
 }

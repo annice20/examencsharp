@@ -1,43 +1,66 @@
 @{
-    ViewData["Title"] = "Connexion";
+    Layout = null;
 }
 
-<div class="container">
-    <div class="row justify-content-center align-items-center vh-100">
-        <div class="col-md-5">
-            <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-body p-5">
-                    <h3 class="text-center mb-4">🔐 Connexion</h3>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connexion</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <style>
+        body{
+            background: linear-gradient(135deg,#4f46e5,#9333ea);
+            height:100vh;
+            display:flex;
+            align-items:center;
+        }
 
-                    @if (ViewBag.Error != null)
-                    {
-                        <div class="alert alert-danger">
+        .login-card{
+            border-radius:20px;
+        }
+
+        .login-title{
+            font-weight:600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card shadow-lg login-card">
+                    <div class="card-body p-5">
+                        <h3 class="text-center mb-4 login-title">
+                        Connexion
+                        </h3>
+
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger">
                             @ViewBag.Error
-                        </div>
-                    }
+                            </div>
+                        }
 
-                    <form method="post">
-                        <div class="mb-3">
-                            <label>Email</label>
-                            <input type="email" name="email" class="form-control rounded-3" required />
+                        <form method="post">
+                            <div class="mb-3">
+                                <input type="email" name="email" class="form-control" placeholder="Email">
+                            </div>
+                            <div class="mb-4">
+                                <input type="password" name="password" class="form-control" placeholder="Mot de passe">
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-primary btn-lg">Se connecter</button>
+                            </div>
+                        </form>
+                        <div class="text-center mt-3">
+                            <a href="/Account/Register">Créer un compte</a>
                         </div>
-
-                        <div class="mb-4">
-                            <label>Mot de passe</label>
-                            <input type="password" name="password" class="form-control rounded-3" required />
-                        </div>
-
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary rounded-3">
-                                Se connecter
-                            </button>
-                        </div>
-                    </form>
-                    <div class="text-center mt-3">
-                        <a href="/Account/Register">Créer un compte</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</body>
+</html>
