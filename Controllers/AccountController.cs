@@ -98,34 +98,51 @@ namespace examencsharp.Controllers
 
         // REGISTER POST
         [HttpPost]
-        public IActionResult Register(string email, string password, string confirmPassword)
+        public IActionResult Register(string email, string password, string confirmPassword, string role)
         {
+            // Vérification des champs vides
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(role))
+            {
+                ViewBag.Error = "Tous les champs sont obligatoires.";
+                return View();
+            }
+
+            // Vérification confirmation mot de passe
             if (password != confirmPassword)
             {
-                ViewBag.Error = "Les mots de passe ne correspondent pas";
+                ViewBag.Error = "Les mots de passe ne correspondent pas.";
                 return View();
             }
 
+            // Vérification email déjà existant
             if (_context.Utilisateurs.Any(u => u.Email == email))
             {
-                ViewBag.Error = "Cet email existe déjà";
+                ViewBag.Error = "Cet email est déjà utilisé.";
                 return View();
             }
 
-            var hasher = new PasswordHasher<Utilisateur>();
+            // Vérification que le rôle est valide (sécurité)
+            if (role != "Admin" && role != "Utilisateur")
+            {
+                ViewBag.Error = "Rôle invalide.";
+                return View();
+            }
 
+            // Création de l'utilisateur
             var user = new Utilisateur
             {
-                Email = email
+                Email = email,
+                Role = role
             };
 
+            // Hashage du mot de passe
+            var hasher = new PasswordHasher<Utilisateur>();
             user.MotDePasse = hasher.HashPassword(user, password);
 
             _context.Utilisateurs.Add(user);
             _context.SaveChanges();
 
-            ViewBag.Success = "Inscription réussie ! Vous pouvez vous connecter.";
-
+            TempData["Success"] = "Inscription réussie ! Vous pouvez vous connecter.";
             return RedirectToAction("Login");
         }
     }

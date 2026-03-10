@@ -1,50 +1,99 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - examencsharp</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - E-VOTE</title>
+    
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/examencsharp.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --dark-bg: #0f172a;
+            --nav-bg: rgba(15, 23, 42, 0.9);
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Sécurité anti-scroll horizontal */
+            width: 100%;
+        }
+
+        /* Navbar Style Portfolio */
+        .navbar-custom {
+            background-color: var(--nav-bg) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+        }
+
+        .navbar-brand-custom {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+
+        .navbar-brand-custom span { color: var(--primary); }
+
+        .nav-link-custom {
+            color: rgba(255, 255, 255, 0.8) !important;
+            font-weight: 500;
+            margin-left: 20px;
+            transition: 0.3s;
+        }
+
+        .nav-link-custom:hover { color: var(--primary) !important; }
+
+        .btn-nav {
+            background: var(--primary);
+            color: white !important;
+            border-radius: 8px;
+            padding: 8px 20px;
+            font-weight: 600;
+            border: none;
+            margin-left: 20px;
+            transition: 0.3s;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">examencsharp</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+            <div class="container">
+                <a class="navbar-brand navbar-brand-custom" asp-controller="Home" asp-action="Index">
+                    VOTE<span>.</span>MG
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item"><a class="nav-link nav-link-custom" href="/">Accueil</a></li>
+                        <li class="nav-item"><a class="nav-link nav-link-custom" href="/Candidats">Candidats</a></li>
+                        <li class="nav-item"><a class="nav-link nav-link-custom" href="/Account/Login">Connexion</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - examencsharp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    <main role="main">
+        @RenderBody()
+    </main>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
