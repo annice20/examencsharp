@@ -1,55 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
-<<<<<<< HEAD
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] — VoteFokontany</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand fw-bold" asp-controller="Dashboard" asp-action="Index">
-            Vote<span style="color:#E74C3C">Fokontany</span>
-        </a>
-        @if (Context.Session.GetString("user") != null)
-        {
-            <div class="navbar-nav me-auto">
-                <a class="nav-link" asp-controller="Dashboard" asp-action="Index">📊 Dashboard</a>
-                <a class="nav-link" asp-controller="Citoyen" asp-action="Index">👥 Citoyens</a>
-                <a class="nav-link" asp-controller="Election" asp-action="Index">📋 Élections</a>
-                <a class="nav-link" asp-controller="Vote" asp-action="Index">🗳️ Voter</a>
-            </div>
-            <div class="navbar-nav">
-                <span class="nav-link text-white-50">👤 @Context.Session.GetString("user")</span>
-                <a class="nav-link" asp-controller="Account" asp-action="Logout">Déconnexion</a>
-            </div>
-        }
-        else
-        {
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" asp-controller="Account" asp-action="Login">Connexion</a>
-                <a class="nav-link" asp-controller="Account" asp-action="Register">Inscription</a>
-            </div>
-        }
-    </div>
-</nav>
-<main class="container-fluid py-4">
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show">
-            @TempData["Success"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    }
-    @RenderBody()
-</main>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-@await RenderSectionAsync("Scripts", required: false)
-=======
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - E-VOTE</title>
@@ -144,6 +95,5 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
->>>>>>> a228513f9f32357ac2e45ef74c82a2d6c0c185de
 </body>
 </html>

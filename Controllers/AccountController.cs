@@ -43,10 +43,17 @@ namespace examencsharp.Controllers
                 return View();
             }
 
-            // 2FA désactivé temporairement - connexion directe
-            HttpContext.Session.SetString("user", user.Email);
-            HttpContext.Session.SetInt32("userId", user.Id);
-            return RedirectToAction("Index", "Home");
+            // Génération du code 2FA
+            string code = new Random().Next(100000, 999999).ToString();
+            user.Code2FA = code;
+            user.Expiration2FA = DateTime.Now.AddMinutes(5);
+            _context.SaveChanges();
+
+            _emailService.EnvoyerCode(user.Email, code);
+
+            HttpContext.Session.SetInt32("UserId2FA", user.Id);
+
+            return RedirectToAction("Verify2FA");
         }
 
         // VERIFY 2FA GET
@@ -64,12 +71,12 @@ namespace examencsharp.Controllers
 
             var user = _context.Utilisateurs.Find(userId);
 
-            if (user != null && user.Code2FA == code && user.Expiration2FA > DateTime.Now)
+            if (user.Code2FA == code && user.Expiration2FA > DateTime.Now)
             {
                 HttpContext.Session.Remove("UserId2FA");
                 HttpContext.Session.SetString("user", user.Email);
-                HttpContext.Session.SetInt32("userId", user.Id);
-                return RedirectToAction("Index", "Home");
+
+                return RedirectToAction("Index", "Home"); // Crée un HomeController pour tester
             }
 
             ViewBag.Error = "Code invalide ou expiré";
@@ -114,14 +121,6 @@ namespace examencsharp.Controllers
                 return View();
             }
 
-<<<<<<< HEAD
-            var hasher = new PasswordHasher<Utilisateur>();
-            var user = new Utilisateur
-            {
-                Email = email,
-                Role = "Citoyen"
-            };
-=======
             // Vérification que le rôle est valide (sécurité)
             if (role != "Admin" && role != "Utilisateur")
             {
@@ -138,47 +137,12 @@ namespace examencsharp.Controllers
 
             // Hashage du mot de passe
             var hasher = new PasswordHasher<Utilisateur>();
->>>>>>> a228513f9f32357ac2e45ef74c82a2d6c0c185de
             user.MotDePasse = hasher.HashPassword(user, password);
 
             _context.Utilisateurs.Add(user);
             _context.SaveChanges();
 
             TempData["Success"] = "Inscription réussie ! Vous pouvez vous connecter.";
-<<<<<<< HEAD
-            return RedirectToAction("Login");
-        }
-
-        // MOT DE PASSE OUBLIE - GET
-        public IActionResult ForgotPassword()
-        {
-            return View();
-        }
-
-        // MOT DE PASSE OUBLIE - POST
-        [HttpPost]
-        public IActionResult ForgotPassword(string email, string newPassword, string confirmPassword)
-        {
-            if (newPassword != confirmPassword)
-            {
-                ViewBag.Error = "Les mots de passe ne correspondent pas";
-                return View();
-            }
-
-            var user = _context.Utilisateurs.FirstOrDefault(u => u.Email == email);
-            if (user == null)
-            {
-                ViewBag.Error = "Email introuvable";
-                return View();
-            }
-
-            var hasher = new PasswordHasher<Utilisateur>();
-            user.MotDePasse = hasher.HashPassword(user, newPassword);
-            _context.SaveChanges();
-
-            TempData["Success"] = "Mot de passe modifié avec succès !";
-=======
->>>>>>> a228513f9f32357ac2e45ef74c82a2d6c0c185de
             return RedirectToAction("Login");
         }
     }
