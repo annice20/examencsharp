@@ -43,17 +43,10 @@ namespace examencsharp.Controllers
                 return View();
             }
 
-            // Génération du code 2FA
-            string code = new Random().Next(100000, 999999).ToString();
-            user.Code2FA = code;
-            user.Expiration2FA = DateTime.Now.AddMinutes(5);
-            _context.SaveChanges();
-
-            _emailService.EnvoyerCode(user.Email, code);
-
-            HttpContext.Session.SetInt32("UserId2FA", user.Id);
-
-            return RedirectToAction("Verify2FA");
+            // 2FA désactivé temporairement - connexion directe
+            HttpContext.Session.SetString("user", user.Email);
+            HttpContext.Session.SetInt32("userId", user.Id);
+            return RedirectToAction("Index", "Home");
         }
 
         // VERIFY 2FA GET
@@ -71,12 +64,12 @@ namespace examencsharp.Controllers
 
             var user = _context.Utilisateurs.Find(userId);
 
-            if (user.Code2FA == code && user.Expiration2FA > DateTime.Now)
+            if (user != null && user.Code2FA == code && user.Expiration2FA > DateTime.Now)
             {
                 HttpContext.Session.Remove("UserId2FA");
                 HttpContext.Session.SetString("user", user.Email);
-
-                return RedirectToAction("Index", "Home"); // Crée un HomeController pour tester
+                HttpContext.Session.SetInt32("userId", user.Id);
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.Error = "Code invalide ou expiré";
@@ -113,19 +106,48 @@ namespace examencsharp.Controllers
             }
 
             var hasher = new PasswordHasher<Utilisateur>();
-
             var user = new Utilisateur
             {
-                Email = email
+                Email = email,
+                Role = "Citoyen"
             };
-
             user.MotDePasse = hasher.HashPassword(user, password);
 
             _context.Utilisateurs.Add(user);
             _context.SaveChanges();
 
-            ViewBag.Success = "Inscription réussie ! Vous pouvez vous connecter.";
+            TempData["Success"] = "Inscription réussie ! Vous pouvez vous connecter.";
+            return RedirectToAction("Login");
+        }
 
+        // MOT DE PASSE OUBLIE - GET
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        // MOT DE PASSE OUBLIE - POST
+        [HttpPost]
+        public IActionResult ForgotPassword(string email, string newPassword, string confirmPassword)
+        {
+            if (newPassword != confirmPassword)
+            {
+                ViewBag.Error = "Les mots de passe ne correspondent pas";
+                return View();
+            }
+
+            var user = _context.Utilisateurs.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                ViewBag.Error = "Email introuvable";
+                return View();
+            }
+
+            var hasher = new PasswordHasher<Utilisateur>();
+            user.MotDePasse = hasher.HashPassword(user, newPassword);
+            _context.SaveChanges();
+
+            TempData["Success"] = "Mot de passe modifié avec succès !";
             return RedirectToAction("Login");
         }
     }

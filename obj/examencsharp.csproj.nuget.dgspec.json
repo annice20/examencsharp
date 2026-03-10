@@ -1,26 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/examencsharp.csproj": {}
+    "D:\\L2 semèstre 3\\dotnet (Mr Antoine)\\examencsharp\\examencsharp.csproj": {}
   },
   "projects": {
-    "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/examencsharp.csproj": {
+    "D:\\L2 semèstre 3\\dotnet (Mr Antoine)\\examencsharp\\examencsharp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/examencsharp.csproj",
+        "projectUniqueName": "D:\\L2 semèstre 3\\dotnet (Mr Antoine)\\examencsharp\\examencsharp.csproj",
         "projectName": "examencsharp",
-        "projectPath": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/examencsharp.csproj",
-        "packagesPath": "/home/annice/.nuget/packages/",
-        "outputPath": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/obj/",
+        "projectPath": "D:\\L2 semèstre 3\\dotnet (Mr Antoine)\\examencsharp\\examencsharp.csproj",
+        "packagesPath": "C:\\Users\\ME-PC\\.nuget\\packages\\",
+        "outputPath": "D:\\L2 semèstre 3\\dotnet (Mr Antoine)\\examencsharp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/annice/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\ME-PC\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "/usr/lib/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -81,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.111/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.114/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
