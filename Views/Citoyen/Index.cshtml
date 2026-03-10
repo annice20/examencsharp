@@ -1,0 +1,46 @@
+@model List<examencsharp.Models.Citoyen>
+@{ ViewData["Title"] = "Citoyens"; }
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold mb-0"> Gestion des <span style="color:#C0392B">Citoyens</span></h4>
+</div>
+
+<form method="get" class="d-flex gap-2 mb-3">
+    <input name="search" value="@ViewBag.Search" class="form-control"
+           placeholder="Rechercher nom, CIN..."/>
+    <button class="btn btn-outline-secondary">🔍</button>
+</form>
+
+<div class="card border-0 shadow-sm">
+    <table class="table table-hover mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>Nom</th><th>Prénom</th><th>CIN</th>
+                <th>Fokontany</th><th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model)
+            {
+                <tr>
+                    <td><strong>@c.NomCitoyen</strong></td>
+                    <td>@c.PrenomCitoyen</td>
+                    <td>@c.CIN</td>
+                    <td>@c.Fokontany?.NomFokontany</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@c.Id"
+                           class="btn btn-sm btn-outline-success">👁</a>
+                        <a asp-action="Edit" asp-route-id="@c.Id"
+                           class="btn btn-sm btn-outline-primary">✏️</a>
+                        <form asp-action="Delete" asp-route-id="@c.Id"
+                              method="post" class="d-inline"
+                              onsubmit="return confirm('Supprimer ?')">
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-sm btn-outline-danger">🗑</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

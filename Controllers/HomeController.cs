@@ -1,24 +1,22 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using examencsharp.Models;
 
-namespace examencsharp.Controllers;
-
-public class HomeController : Controller
+namespace examencsharp.Controllers
 {
-    public IActionResult Index()
+    public class HomeController : Controller
     {
-        return View();
-    }
+        public IActionResult Index()
+        {
+            // Vérifier si connecté via Session
+            var userEmail = HttpContext.Session.GetString("user");
+            if (string.IsNullOrEmpty(userEmail))
+                return RedirectToAction("Login", "Account");
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+            return RedirectToAction("Index", "Dashboard");
+        }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public IActionResult Privacy()
+        {
+            return View();
+        }
     }
 }

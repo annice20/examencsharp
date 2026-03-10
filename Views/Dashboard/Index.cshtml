@@ -1,0 +1,63 @@
+@model examencsharp.Models.Views.VDashboard
+@{ ViewData["Title"] = "Dashboard"; }
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Tableau de bord <span style="color:#C0392B">Admin</span></h2>
+    <small class="text-muted">@DateTime.Now.ToString("dd/MM/yyyy")</small>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm text-center p-3">
+            <div style="font-size:2rem">👥</div>
+            <div class="fs-3 fw-bold">@Model.TotalCitizens</div>
+            <small class="text-muted">Total citoyens</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm text-center p-3">
+            <div style="font-size:2rem">🪪</div>
+            <div class="fs-3 fw-bold">@Model.CinDelivered</div>
+            <small class="text-muted">CIN approuvées</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm text-center p-3 border-warning">
+            <div style="font-size:2rem">⏳</div>
+            <div class="fs-3 fw-bold text-warning">@Model.PendingRequests</div>
+            <small class="text-muted">En attente</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm text-center p-3">
+            <div style="font-size:2rem">🗳️</div>
+            <div class="fs-3 fw-bold text-success">@Model.TotalVotes</div>
+            <small class="text-muted">Votes enregistrés</small>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.Resultats != null)
+{
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white fw-bold">
+             Résultats — @ViewBag.ElectionTitre
+        </div>
+        <div class="card-body">
+            @{ var total = ((List<examencsharp.Models.Views.VResult>)ViewBag.Resultats).Sum(r => r.TotalVotes); }
+            @foreach (var r in (List<examencsharp.Models.Views.VResult>)ViewBag.Resultats)
+            {
+                var pct = total > 0 ? Math.Round((double)r.TotalVotes / total * 100, 1) : 0;
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="fw-semibold">@r.FirstName @r.LastName</span>
+                        <span>@r.TotalVotes votes — @pct%</span>
+                    </div>
+                    <div class="progress" style="height:10px">
+                        <div class="progress-bar bg-danger" style="width:@pct%"></div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
