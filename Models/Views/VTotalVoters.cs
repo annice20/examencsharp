@@ -5,8 +5,8 @@ namespace examencsharp.Models.Views
     [Keyless]
     public class VTotalVoters
     {
-        public int ElectionId { get; set; }
+        public int election_id { get; set; }
 
-        public int TotalVoters { get; set; }
+        public int total_voters { get; set; }
     }
 }

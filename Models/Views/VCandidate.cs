@@ -7,18 +7,18 @@ namespace examencsharp.Models.Views
     {
         public int Id { get; set; }
 
-        public string FirstName { get; set; }
+        public string NomCandidat { get; set; }
 
-        public string LastName { get; set; }
+        public string PrenomCandidat { get; set; }
 
-        public string Program { get; set; }
+        public string Programme { get; set; }
 
         public string Photo { get; set; }
 
         public bool Validated { get; set; }
 
-        public string Fokontany { get; set; }
+        public string fokontany { get; set; }
 
-        public string Election { get; set; }
+        public string election { get; set; }
     }
 }

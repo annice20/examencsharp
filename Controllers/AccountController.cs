@@ -76,7 +76,14 @@ namespace examencsharp.Controllers
                 HttpContext.Session.Remove("UserId2FA");
                 HttpContext.Session.SetString("user", user.Email);
 
-                return RedirectToAction("Index", "Home"); // Crée un HomeController pour tester
+                if(user.Role == "Admin")
+                {
+                    return RedirectToAction("Index", "Dashboard");
+                }
+                if(user.Role == "Citoyen")
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             ViewBag.Error = "Code invalide ou expiré";

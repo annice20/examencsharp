@@ -80,7 +80,16 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto align-items-center">
                         <li class="nav-item"><a class="nav-link nav-link-custom" href="/">Accueil</a></li>
-                        <li class="nav-item"><a class="nav-link nav-link-custom" href="/Candidats">Candidats</a></li>
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Candidats
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/Candidat/Index">Liste des candidats</a></li>
+                                <li><a class="dropdown-item" href="/Candidat/Create">Ajouter un candidat</a></li>
+                            </ul>
+                        </div>
+
                         <li class="nav-item"><a class="nav-link nav-link-custom" href="/Account/Login">Connexion</a></li>
                     </ul>
                 </div>

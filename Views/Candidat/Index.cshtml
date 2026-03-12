@@ -1,0 +1,40 @@
+@model IEnumerable<examencsharp.Models.Views.VCandidate>
+@{
+    ViewData["Title"] = "Liste des candidats";
+}
+
+<div class="container">
+    <h1>Liste des étudiants</h1>
+    <a class="btn btn-outline-primary mb-3" asp-controller="Student" asp-action="AddStudent">Ajouter</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Programme</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody class="mytable">
+        @if (Model != null && Model.Any())
+        {
+          @foreach (var c in Model)
+          {
+            <tr>
+                <td>@c.NomCandidat</td>
+                <td>@c.PrenomCandidat</td>
+                <td>@c.Programme</td>
+                <td>@c.Validated</td>
+            </tr>
+          }
+        }
+        else
+        {
+          <tr>
+            <td>Aucun candidat trouvé.</td>
+          </tr>
+        }
+        </tbody>
+    </table>
+    <br>
+</div>

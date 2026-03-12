@@ -12,15 +12,15 @@ namespace examencsharp.Controllers
         public async Task<IActionResult> Index()
         {
             // Vérifier session
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("user")))
-                return RedirectToAction("Login", "Account");
+            //if (string.IsNullOrEmpty(HttpContext.Session.GetString("user")))
+                //return RedirectToAction("Login", "Account");
 
             var dashboard = new VDashboard
             {
-                TotalCitizens   = await _db.Citoyens.CountAsync(),
-                CinDelivered    = await _db.CinRequests.CountAsync(r => r.Status == "Approved"),
-                PendingRequests = await _db.CinRequests.CountAsync(r => r.Status == "Pending"),
-                TotalVotes      = await _db.Votes.CountAsync()
+                total_citoyens   = await _db.Citoyens.CountAsync(),
+                cin_delivered    = await _db.CinRequests.CountAsync(r => r.Status == "Approved"),
+                pending_requests = await _db.CinRequests.CountAsync(r => r.Status == "Pending"),
+                total_votes      = await _db.Votes.CountAsync()
             };
 
             var electionActive = await _db.Elections.FirstOrDefaultAsync(e => e.IsActive);
@@ -32,11 +32,11 @@ namespace examencsharp.Controllers
                     .GroupBy(v => new { v.Candidat!.NomCandidat, v.Candidat.PrenomCandidat })
                     .Select(g => new VResult
                     {
-                        FirstName  = g.Key.PrenomCandidat,
-                        LastName   = g.Key.NomCandidat,
-                        TotalVotes = g.Count()
+                        NomCandidat  = g.Key.NomCandidat,
+                        PrenomCandidat   = g.Key.PrenomCandidat,
+                        total_votes = g.Count()
                     })
-                    .OrderByDescending(r => r.TotalVotes)
+                    .OrderByDescending(r => r.total_votes)
                     .ToListAsync();
 
                 ViewBag.Resultats = resultats;

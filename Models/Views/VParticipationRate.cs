@@ -7,8 +7,8 @@ namespace examencsharp.Models.Views
     {
         public int Id { get; set; }
 
-        public string Title { get; set; }
+        public string TitreElection { get; set; }
 
-        public double ParticipationRate { get; set; }
+        public double participation_rate { get; set; }
     }
 }

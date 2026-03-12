@@ -186,3 +186,4 @@
 /home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/obj/Debug/net9.0/examencsharp.genruntimeconfig.cache
 /home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/obj/Debug/net9.0/ref/examencsharp.dll
 /home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/obj/Debug/net9.0/examencsharp.sourcelink.json
+/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/bin/Debug/net9.0/Data/data.sql
