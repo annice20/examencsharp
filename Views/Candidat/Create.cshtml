@@ -4,78 +4,85 @@
     ViewData["Title"] = "Ajouter un candidat";
 }
 
-<div class="container mt-4">
+<style>
+    body{
+        background: linear-gradient(135deg,#4f46e5,#9333ea);
+    }
+    .card {
+        width: 50%;
+        padding: 20px;
+        margin: auto;
+    }
+</style>
 
-    <h2 class="mb-4">Ajouter un candidat</h2>
+<div class="container mt-5 pt-5">
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Ajouter un candidat</h5>
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group mb-3">
+                            <input asp-for="NomCandidat" class="form-control" placeholder="Nom" required />
+                        </div>
 
-    <form asp-action="Create" method="post" enctype="multipart/form-data">
+                        <div class="form-group mb-3">
+                            <input asp-for="PrenomCandidat" class="form-control" placeholder="Prénom" required />
+                        </div>
 
-        <div class="row">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Programme</label>
+                            <textarea asp-for="Programme" class="form-control" rows="4"></textarea>
+                        </div>
 
-            <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Election</label>
+                            <select asp-for="ElectionId" class="form-control">
 
-                <div class="form-group mb-3">
-                    <label class="form-label">Nom</label>
-                    <input asp-for="NomCandidat" class="form-control" required />
+                                <option value="">-- Choisir une élection --</option>
+
+                                @foreach (var e in ViewBag.Elections)
+                                {
+                                    <option value="@e.Id">@e.TitreElection</option>
+                                }
+
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label">Fokontany</label>
+
+                            <select asp-for="FokontanyId" class="form-control">
+
+                                <option value="">-- Choisir un Fokontany --</option>
+
+                                @foreach (var f in ViewBag.Fokontany)
+                                {
+                                    <option value="@f.Id">@f.NomFokontany</option>
+                                }
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label">Photo du candidat</label>
+                            <input type="file" name="photo" class="form-control" />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Enregistrer
+                        </button>
+
+                        <a asp-action="Index" class="btn btn-secondary">
+                            Annuler
+                        </a>
+                    </div>
                 </div>
-
-                <div class="form-group mb-3">
-                    <label class="form-label">Prénom</label>
-                    <input asp-for="PrenomCandidat" class="form-control" required />
-                </div>
-
-                <div class="form-group mb-3">
-                    <label class="form-label">Programme</label>
-                    <textarea asp-for="Programme" class="form-control" rows="4"></textarea>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label class="form-label">Election</label>
-                    <select asp-for="ElectionId" class="form-control">
-
-                        <option value="">-- Choisir une élection --</option>
-
-                        @foreach (var e in ViewBag.Elections)
-                        {
-                            <option value="@e.Id">@e.NomElection</option>
-                        }
-
-                    </select>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label class="form-label">Fokontany</label>
-
-                    <select asp-for="FokontanyId" class="form-control">
-
-                        <option value="">-- Choisir un Fokontany --</option>
-
-                        @foreach (var f in ViewBag.Fokontany)
-                        {
-                            <option value="@f.Id">@f.NomFokontany</option>
-                        }
-
-                    </select>
-
-                </div>
-
-                <div class="form-group mb-3">
-                    <label class="form-label">Photo du candidat</label>
-                    <input type="file" name="photo" class="form-control" />
-                </div>
-
-                <button type="submit" class="btn btn-primary">
-                    Enregistrer
-                </button>
-
-                <a asp-action="Index" class="btn btn-secondary">
-                    Annuler
-                </a>
-
-            </div>
-
+            </form>
         </div>
+    </div>
 
-    </form>
+    
 
 </div>

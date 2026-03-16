@@ -18,8 +18,8 @@ namespace examencsharp.Controllers
             var dashboard = new VDashboard
             {
                 total_citoyens   = await _db.Citoyens.CountAsync(),
-                cin_delivered    = await _db.CinRequests.CountAsync(r => r.Status == "Approved"),
-                pending_requests = await _db.CinRequests.CountAsync(r => r.Status == "Pending"),
+                cin_delivered    = await _db.CinRequests.CountAsync(r => r.Status == "Approuvé"),
+                pending_requests = await _db.CinRequests.CountAsync(r => r.Status == "En attente"),
                 total_votes      = await _db.Votes.CountAsync()
             };
 

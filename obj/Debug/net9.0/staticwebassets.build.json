@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Wk0Mzrj9iI+gf8t0Er+tIOlNUF2K36yDAXZ/vCqf9yI=",
+  "Hash": "3DZ9iNJB/sG07mp1RJpcYcxbmmv/nBfrA6qP75nHt0c=",
   "Source": "examencsharp",
   "BasePath": "_content/examencsharp",
   "Mode": "Default",
@@ -2724,6 +2724,48 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/lib/jquery/LICENSE.txt"
+    },
+    {
+      "Identity": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/094dd457-f03f-4b40-bc16-b4d9189cf7b9.png",
+      "SourceId": "examencsharp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/",
+      "BasePath": "_content/examencsharp",
+      "RelativePath": "photos/094dd457-f03f-4b40-bc16-b4d9189cf7b9#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "iycyj9bbju",
+      "Integrity": "5mLzmyzEayGY2xat6QHpGc1ShwRaArjz0xKEB/Hi7T4=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/photos/094dd457-f03f-4b40-bc16-b4d9189cf7b9.png"
+    },
+    {
+      "Identity": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/9cdbd408-186d-46bd-966b-f3b2a63e2f34.png",
+      "SourceId": "examencsharp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/",
+      "BasePath": "_content/examencsharp",
+      "RelativePath": "photos/9cdbd408-186d-46bd-966b-f3b2a63e2f34#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "iycyj9bbju",
+      "Integrity": "5mLzmyzEayGY2xat6QHpGc1ShwRaArjz0xKEB/Hi7T4=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/photos/9cdbd408-186d-46bd-966b-f3b2a63e2f34.png"
     }
   ],
   "Endpoints": [
@@ -21878,6 +21920,170 @@
         {
           "Name": "integrity",
           "Value": "sha256-3DFiegc2iKK88Ppo8dYwD8G8uooRYBWB1cSv6eWSkt4="
+        }
+      ]
+    },
+    {
+      "Route": "photos/094dd457-f03f-4b40-bc16-b4d9189cf7b9.iycyj9bbju.png",
+      "AssetFile": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/094dd457-f03f-4b40-bc16-b4d9189cf7b9.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1105"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5mLzmyzEayGY2xat6QHpGc1ShwRaArjz0xKEB/Hi7T4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 16 Mar 2026 05:55:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "iycyj9bbju"
+        },
+        {
+          "Name": "label",
+          "Value": "photos/094dd457-f03f-4b40-bc16-b4d9189cf7b9.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-5mLzmyzEayGY2xat6QHpGc1ShwRaArjz0xKEB/Hi7T4="
+        }
+      ]
+    },
+    {
+      "Route": "photos/094dd457-f03f-4b40-bc16-b4d9189cf7b9.png",
+      "AssetFile": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/094dd457-f03f-4b40-bc16-b4d9189cf7b9.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1105"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5mLzmyzEayGY2xat6QHpGc1ShwRaArjz0xKEB/Hi7T4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 16 Mar 2026 05:55:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-5mLzmyzEayGY2xat6QHpGc1ShwRaArjz0xKEB/Hi7T4="
+        }
+      ]
+    },
+    {
+      "Route": "photos/9cdbd408-186d-46bd-966b-f3b2a63e2f34.iycyj9bbju.png",
+      "AssetFile": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/9cdbd408-186d-46bd-966b-f3b2a63e2f34.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1105"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5mLzmyzEayGY2xat6QHpGc1ShwRaArjz0xKEB/Hi7T4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 16 Mar 2026 05:51:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "iycyj9bbju"
+        },
+        {
+          "Name": "label",
+          "Value": "photos/9cdbd408-186d-46bd-966b-f3b2a63e2f34.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-5mLzmyzEayGY2xat6QHpGc1ShwRaArjz0xKEB/Hi7T4="
+        }
+      ]
+    },
+    {
+      "Route": "photos/9cdbd408-186d-46bd-966b-f3b2a63e2f34.png",
+      "AssetFile": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/9cdbd408-186d-46bd-966b-f3b2a63e2f34.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1105"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5mLzmyzEayGY2xat6QHpGc1ShwRaArjz0xKEB/Hi7T4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 16 Mar 2026 05:51:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-5mLzmyzEayGY2xat6QHpGc1ShwRaArjz0xKEB/Hi7T4="
         }
       ]
     }

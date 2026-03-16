@@ -257,6 +257,14 @@
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.slim.min.map"
     },
     {
+      "Id": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/094dd457-f03f-4b40-bc16-b4d9189cf7b9.png",
+      "PackagePath": "staticwebassets/photos/094dd457-f03f-4b40-bc16-b4d9189cf7b9.png"
+    },
+    {
+      "Id": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/9cdbd408-186d-46bd-966b-f3b2a63e2f34.png",
+      "PackagePath": "staticwebassets/photos/9cdbd408-186d-46bd-966b-f3b2a63e2f34.png"
+    },
+    {
       "Id": "obj/Debug/net9.0/staticwebassets/msbuild.build.examencsharp.props",
       "PackagePath": "build\\examencsharp.props"
     },
