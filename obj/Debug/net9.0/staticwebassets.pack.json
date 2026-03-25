@@ -257,12 +257,40 @@
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.slim.min.map"
     },
     {
+      "Id": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/068459d0-3375-4224-ab7d-af710cc30558.png",
+      "PackagePath": "staticwebassets/photos/068459d0-3375-4224-ab7d-af710cc30558.png"
+    },
+    {
       "Id": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/094dd457-f03f-4b40-bc16-b4d9189cf7b9.png",
       "PackagePath": "staticwebassets/photos/094dd457-f03f-4b40-bc16-b4d9189cf7b9.png"
     },
     {
+      "Id": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/1255c628-7a65-44f9-bf1b-336440004631.png",
+      "PackagePath": "staticwebassets/photos/1255c628-7a65-44f9-bf1b-336440004631.png"
+    },
+    {
+      "Id": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/67416ef2-68f2-45be-b24f-6f793d6812f0.png",
+      "PackagePath": "staticwebassets/photos/67416ef2-68f2-45be-b24f-6f793d6812f0.png"
+    },
+    {
+      "Id": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/6a07e726-1941-4ba4-9c1d-b39e18f5d621.png",
+      "PackagePath": "staticwebassets/photos/6a07e726-1941-4ba4-9c1d-b39e18f5d621.png"
+    },
+    {
       "Id": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/9cdbd408-186d-46bd-966b-f3b2a63e2f34.png",
       "PackagePath": "staticwebassets/photos/9cdbd408-186d-46bd-966b-f3b2a63e2f34.png"
+    },
+    {
+      "Id": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/af9c5691-2ce4-4682-819d-2a3febc100e5.png",
+      "PackagePath": "staticwebassets/photos/af9c5691-2ce4-4682-819d-2a3febc100e5.png"
+    },
+    {
+      "Id": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/e94ad7c6-6230-431f-bfc8-2150d8c4f757.png",
+      "PackagePath": "staticwebassets/photos/e94ad7c6-6230-431f-bfc8-2150d8c4f757.png"
+    },
+    {
+      "Id": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/wwwroot/photos/e9a7885e-5b87-49bb-ad7a-a0dece79504b.png",
+      "PackagePath": "staticwebassets/photos/e9a7885e-5b87-49bb-ad7a-a0dece79504b.png"
     },
     {
       "Id": "obj/Debug/net9.0/staticwebassets/msbuild.build.examencsharp.props",

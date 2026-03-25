@@ -1152,6 +1152,24 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\lib\jquery\LICENSE.txt'))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\068459d0-3375-4224-ab7d-af710cc30558.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>examencsharp</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/examencsharp</BasePath>
+      <RelativePath>photos/068459d0-3375-4224-ab7d-af710cc30558.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>liodznzsz6</Fingerprint>
+      <Integrity>o1NHkP9nyf/Es9pSCNAMyqH0gaCOGROuNfE9Cln0GX8=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\068459d0-3375-4224-ab7d-af710cc30558.png'))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\094dd457-f03f-4b40-bc16-b4d9189cf7b9.png'))">
       <SourceType>Package</SourceType>
       <SourceId>examencsharp</SourceId>
@@ -1170,6 +1188,60 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\094dd457-f03f-4b40-bc16-b4d9189cf7b9.png'))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\1255c628-7a65-44f9-bf1b-336440004631.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>examencsharp</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/examencsharp</BasePath>
+      <RelativePath>photos/1255c628-7a65-44f9-bf1b-336440004631.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>liodznzsz6</Fingerprint>
+      <Integrity>o1NHkP9nyf/Es9pSCNAMyqH0gaCOGROuNfE9Cln0GX8=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\1255c628-7a65-44f9-bf1b-336440004631.png'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\67416ef2-68f2-45be-b24f-6f793d6812f0.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>examencsharp</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/examencsharp</BasePath>
+      <RelativePath>photos/67416ef2-68f2-45be-b24f-6f793d6812f0.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>liodznzsz6</Fingerprint>
+      <Integrity>o1NHkP9nyf/Es9pSCNAMyqH0gaCOGROuNfE9Cln0GX8=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\67416ef2-68f2-45be-b24f-6f793d6812f0.png'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\6a07e726-1941-4ba4-9c1d-b39e18f5d621.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>examencsharp</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/examencsharp</BasePath>
+      <RelativePath>photos/6a07e726-1941-4ba4-9c1d-b39e18f5d621.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>bqu5k7u1w0</Fingerprint>
+      <Integrity>LaXOnv8UUpqlWPPykanFNgMd5qLwKlybI+DqvC6WqaE=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\6a07e726-1941-4ba4-9c1d-b39e18f5d621.png'))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\9cdbd408-186d-46bd-966b-f3b2a63e2f34.png'))">
       <SourceType>Package</SourceType>
       <SourceId>examencsharp</SourceId>
@@ -1187,6 +1259,60 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\9cdbd408-186d-46bd-966b-f3b2a63e2f34.png'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\af9c5691-2ce4-4682-819d-2a3febc100e5.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>examencsharp</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/examencsharp</BasePath>
+      <RelativePath>photos/af9c5691-2ce4-4682-819d-2a3febc100e5.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>liodznzsz6</Fingerprint>
+      <Integrity>o1NHkP9nyf/Es9pSCNAMyqH0gaCOGROuNfE9Cln0GX8=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\af9c5691-2ce4-4682-819d-2a3febc100e5.png'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\e94ad7c6-6230-431f-bfc8-2150d8c4f757.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>examencsharp</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/examencsharp</BasePath>
+      <RelativePath>photos/e94ad7c6-6230-431f-bfc8-2150d8c4f757.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>0uyygm36kk</Fingerprint>
+      <Integrity>2LzznyG7Mh0I0S8tcZr4acDkS/4XGf+z6WXnLH7/dc8=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\e94ad7c6-6230-431f-bfc8-2150d8c4f757.png'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\e9a7885e-5b87-49bb-ad7a-a0dece79504b.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>examencsharp</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/examencsharp</BasePath>
+      <RelativePath>photos/e9a7885e-5b87-49bb-ad7a-a0dece79504b.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>liodznzsz6</Fingerprint>
+      <Integrity>o1NHkP9nyf/Es9pSCNAMyqH0gaCOGROuNfE9Cln0GX8=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\photos\e9a7885e-5b87-49bb-ad7a-a0dece79504b.png'))</OriginalItemSpec>
     </StaticWebAsset>
   </ItemGroup>
 </Project>

@@ -1,25 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\EXAMEN\\examencsharp\\examencsharp.csproj": {}
+    "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/examencsharp.csproj": {}
   },
   "projects": {
-    "C:\\EXAMEN\\examencsharp\\examencsharp.csproj": {
+    "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/examencsharp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\EXAMEN\\examencsharp\\examencsharp.csproj",
+        "projectUniqueName": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/examencsharp.csproj",
         "projectName": "examencsharp",
-        "projectPath": "C:\\EXAMEN\\examencsharp\\examencsharp.csproj",
-        "packagesPath": "C:\\Users\\ME-PC\\.nuget\\packages\\",
-        "outputPath": "C:\\EXAMEN\\examencsharp\\obj\\",
+        "projectPath": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/examencsharp.csproj",
+        "packagesPath": "/home/annice/.nuget/packages/",
+        "outputPath": "/home/annice/INSI/Csharp/Examen/ExamDotnet/examencsharp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ME-PC\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/annice/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
+          "/usr/lib/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,7 +39,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -72,24 +73,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[9.0.11, 9.0.11]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[9.0.11, 9.0.11]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.11, 9.0.11]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[9.0.11, 9.0.11]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -98,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.111/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
