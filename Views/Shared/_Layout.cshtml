@@ -3,103 +3,243 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - E-VOTE</title>
-    
+    <title>@ViewData["Title"] - E-VOTE MG</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
     <style>
-        :root {
-            --primary: #6366f1;
-            --dark-bg: #0f172a;
-            --nav-bg: rgba(15, 23, 42, 0.9);
-        }
-
+        * { box-sizing: border-box; }
         body {
             font-family: "Inter", sans-serif;
+            background-color: #f1f5f9;
             margin: 0;
+            padding-top: 70px;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar-main {
+            background: #ffffff;
+            border-bottom: 2px solid #e2e8f0;
             padding: 0;
-            overflow-x: hidden; /* Sécurité anti-scroll horizontal */
-            width: 100%;
+            height: 70px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         }
-
-        /* Navbar Style Portfolio */
-        .navbar-custom {
-            background-color: var(--nav-bg) !important;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 15px 0;
+        .navbar-main .container {
+            height: 70px;
+            display: flex;
+            align-items: center;
         }
-
-        .navbar-brand-custom {
+        .navbar-brand-text {
+            font-size: 1.4rem;
             font-weight: 700;
-            font-size: 1.5rem;
-            color: white !important;
+            color: #1e40af !important;
+            text-decoration: none;
+            letter-spacing: -0.5px;
         }
+        .navbar-brand-text span { color: #3b82f6; }
 
-        .navbar-brand-custom span { color: var(--primary); }
-
-        .nav-link-custom {
-            color: rgba(255, 255, 255, 0.8) !important;
+        .nav-link-main {
+            color: #475569 !important;
             font-weight: 500;
-            margin-left: 20px;
-            transition: 0.3s;
+            font-size: 0.9rem;
+            padding: 8px 14px !important;
+            border-radius: 8px;
+            transition: all 0.2s;
+            text-decoration: none;
         }
-
-        .nav-link-custom:hover { color: var(--primary) !important; }
-
-        .btn-nav {
-            background: var(--primary);
+        .nav-link-main:hover {
+            background: #eff6ff;
+            color: #1e40af !important;
+        }
+        .nav-link-main.active {
+            background: #eff6ff;
+            color: #1e40af !important;
+        }
+        .dropdown-menu-main {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            padding: 8px;
+            margin-top: 8px !important;
+        }
+        .dropdown-item-main {
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 0.88rem;
+            color: #475569;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .dropdown-item-main:hover {
+            background: #eff6ff;
+            color: #1e40af;
+        }
+        .btn-voter {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
             color: white !important;
             border-radius: 8px;
-            padding: 8px 20px;
+            padding: 8px 18px;
             font-weight: 600;
+            font-size: 0.9rem;
             border: none;
-            margin-left: 20px;
-            transition: 0.3s;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-voter:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+        }
+        .btn-deconnexion {
+            background: #fee2e2;
+            color: #dc2626 !important;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-deconnexion:hover {
+            background: #fecaca;
+        }
+        .user-badge {
+            background: #f1f5f9;
+            color: #475569;
+            border-radius: 8px;
+            padding: 7px 14px;
+            font-size: 0.85rem;
+            font-weight: 500;
         }
 
-        .btn-nav:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        /* ===== PAGE CONTENT ===== */
+        .page-wrapper {
+            min-height: calc(100vh - 70px);
+            padding: 30px 0;
+        }
+
+        /* ===== CARDS ===== */
+        .card-main {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        /* ===== ALERTS ===== */
+        .alert-success-main {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            border-radius: 10px;
+            padding: 12px 16px;
         }
     </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-main fixed-top">
             <div class="container">
-                <a class="navbar-brand navbar-brand-custom" asp-controller="Home" asp-action="Index">
-                    VOTE<span>.</span>MG
+                <a class="navbar-brand-text" href="/Dashboard">
+                    E-VOTE<span>.MG</span>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        style="border:1px solid #e2e8f0;">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto align-items-center">
-                        <li class="nav-item"><a class="nav-link nav-link-custom" href="/Dashboard/">Accueil</a></li>
-                        <div class="dropdown">
-                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Candidats
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/Candidat/Index">Liste des candidats</a></li>
-                                <li><a class="dropdown-item" href="/Candidat/Create">Ajouter un candidat</a></li>
-                            </ul>
-                        </div>
+                    <ul class="navbar-nav ms-auto align-items-center gap-1">
 
-                        <li class="nav-item"><a class="nav-link nav-link-custom" href="/Account/Login">Connexion</a></li>
+                        @if (Context.Session.GetString("user") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link-main" href="/Dashboard">
+                                    <i class="fas fa-chart-pie me-1"></i>Dashboard
+                                </a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link-main dropdown-toggle" href="#"
+                                   data-bs-toggle="dropdown">
+                                    <i class="fas fa-user-tie me-1"></i>Candidats
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-main">
+                                    <li><a class="dropdown-item dropdown-item-main" href="/Candidat/Index">
+                                        <i class="fas fa-list me-2 text-primary"></i>Liste des candidats
+                                    </a></li>
+                                    <li><a class="dropdown-item dropdown-item-main" href="/Candidat/Create">
+                                        <i class="fas fa-plus me-2 text-success"></i>Ajouter un candidat
+                                    </a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link-main dropdown-toggle" href="#"
+                                   data-bs-toggle="dropdown">
+                                    <i class="fas fa-users me-1"></i>Citoyens
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-main">
+                                    <li><a class="dropdown-item dropdown-item-main" href="/Citoyen/Index">
+                                        <i class="fas fa-list me-2 text-primary"></i>Liste des citoyens
+                                    </a></li>
+                                    <li><a class="dropdown-item dropdown-item-main" href="/Citoyen/Create">
+                                        <i class="fas fa-plus me-2 text-success"></i>Ajouter un citoyen
+                                    </a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link-main dropdown-toggle" href="#"
+                                   data-bs-toggle="dropdown">
+                                    <i class="fas fa-landmark me-1"></i>Élections
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-main">
+                                    <li><a class="dropdown-item dropdown-item-main" href="/Election/Index">
+                                        <i class="fas fa-list me-2 text-primary"></i>Liste des élections
+                                    </a></li>
+                                    <li><a class="dropdown-item dropdown-item-main" href="/Election/Create">
+                                        <i class="fas fa-plus me-2 text-success"></i>Créer une élection
+                                    </a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="btn-voter" href="/Vote">
+                                    <i class="fas fa-vote-yea me-1"></i>Voter
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <span class="user-badge">
+                                    <i class="fas fa-user-circle me-1 text-primary"></i>
+                                    @Context.Session.GetString("user")
+                                </span>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="btn-deconnexion" href="/Account/Logout">
+                                    <i class="fas fa-sign-out-alt me-1"></i>Déconnexion
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn-voter" href="/Account/Login">
+                                    <i class="fas fa-sign-in-alt me-1"></i>Connexion
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
 
-    <main role="main">
+    <div class="page-wrapper">
         @RenderBody()
-    </main>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

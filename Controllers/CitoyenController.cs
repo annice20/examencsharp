@@ -59,7 +59,29 @@ namespace examencsharp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+public async Task<IActionResult> Create()
+{
+    if (!EstConnecte()) return RedirectToAction("Login", "Account");
+    ViewBag.Fokontanys = await _db.Fokontany.ToListAsync();
+    return View();
+}
+
+[HttpPost, ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(Citoyen model)
+{
+    if (!ModelState.IsValid)
+    {
+        ViewBag.Fokontanys = await _db.Fokontany.ToListAsync();
+        return View(model);
+    }
+    _db.Citoyens.Add(model);
+    await _db.SaveChangesAsync();
+    TempData["Success"] = "Citoyen créé avec succès.";
+    return RedirectToAction(nameof(Index));
+}
+
+
+       [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             if (!EstConnecte()) return RedirectToAction("Login", "Account");
@@ -73,3 +95,4 @@ namespace examencsharp.Controllers
         }
     }
 }
+

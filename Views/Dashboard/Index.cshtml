@@ -2,224 +2,264 @@
 @{ ViewData["Title"] = "Dashboard"; }
 
 <style>
-    body{
-        background: linear-gradient(135deg,#4f46e5,#bda8d1);
+    @@keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    @@keyframes countUp {
+        from { opacity: 0; transform: scale(0.5); }
+        to   { opacity: 1; transform: scale(1); }
+    }
+    @@keyframes slideInLeft {
+        from { opacity: 0; transform: translateX(-30px); }
+        to   { opacity: 1; transform: translateX(0); }
+    }
+    @@keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50%       { transform: scale(1.05); }
     }
 
-    body, .dashboard-root {
-        font-family: 'DM Sans', sans-serif;
+    .dashboard-header {
+        animation: slideInLeft 0.6s ease forwards;
     }
-
-    .dashboard-title {
-        font-family: 'Syne', sans-serif;
-        font-size: 1.9rem;
-        letter-spacing: -0.5px;
-    }
-
     .stat-card {
         border-radius: 16px !important;
-        border: 1px solid rgba(0,0,0,0.06) !important;
-        background: #fff;
-        transition: transform .18s ease, box-shadow .18s ease;
+        border: none !important;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        opacity: 0;
+        animation: fadeInUp 0.5s ease forwards;
         overflow: hidden;
-        position: relative;
     }
-
     .stat-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 32px rgba(0,0,0,0.10) !important;
+        transform: translateY(-6px) !important;
+        box-shadow: 0 16px 40px rgba(0,0,0,0.12) !important;
     }
-
-    .stat-card .card-accent {
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 4px;
-        border-radius: 16px 16px 0 0;
-    }
-
-    .accent-blue   { background: linear-gradient(90deg, #3B82F6, #60A5FA); }
-    .accent-indigo { background: linear-gradient(90deg, #6366F1, #A5B4FC); }
-    .accent-amber  { background: linear-gradient(90deg, #F59E0B, #FCD34D); }
-    .accent-green  { background: linear-gradient(90deg, #10B981, #6EE7B7); }
-
-    .stat-icon {
-        width: 48px; height: 48px;
-        border-radius: 12px;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 1.4rem;
-        margin: 0 auto 10px;
-    }
-
-    .icon-blue   { background: #EFF6FF; }
-    .icon-indigo { background: #EEF2FF; }
-    .icon-amber  { background: #FFFBEB; }
-    .icon-green  { background: #ECFDF5; }
+    .stat-card:nth-child(1) { animation-delay: 0.1s; }
+    .stat-card:nth-child(2) { animation-delay: 0.2s; }
+    .stat-card:nth-child(3) { animation-delay: 0.3s; }
+    .stat-card:nth-child(4) { animation-delay: 0.4s; }
 
     .stat-value {
-        font-family: 'Syne', sans-serif;
-        font-size: 2rem;
+        animation: countUp 0.6s ease forwards;
+        font-size: 2.2rem;
         font-weight: 800;
         line-height: 1;
-        color: #111827;
     }
-
-    .stat-label {
-        font-size: .78rem;
-        color: #6B7280;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: .5px;
-        margin-top: 4px;
+    .stat-icon {
+        width: 52px; height: 52px;
+        border-radius: 14px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.4rem;
+        animation: pulse 2s ease infinite;
+    }
+    .stat-border-left {
+        position: absolute;
+        left: 0; top: 0; bottom: 0;
+        width: 5px;
+        border-radius: 16px 0 0 16px;
     }
 
     .results-card {
         border-radius: 16px !important;
-        border: 1px solid rgba(0,0,0,0.06) !important;
-        overflow: hidden;
+        border: none !important;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        opacity: 0;
+        animation: fadeInUp 0.6s ease 0.5s forwards;
     }
-
-    .results-card .card-header {
-        background: linear-gradient(135deg, #1E293B 0%, #334155 100%) !important;
-        color: #fff !important;
-        padding: 18px 24px;
-        border-bottom: none;
+    .progress-bar-animated {
+        animation: progressFill 1.2s ease forwards;
     }
-
-    .results-card .card-header .badge-election {
-        background: rgba(255,255,255,0.15);
-        color: #fff;
-        font-size: .72rem;
-        padding: 4px 10px;
-        border-radius: 999px;
-        font-weight: 500;
-        letter-spacing: .3px;
+    @@keyframes progressFill {
+        from { width: 0% !important; }
     }
-
     .candidate-row {
         padding: 14px 0;
-        border-bottom: 1px solid #F3F4F6;
+        border-bottom: 1px solid #f1f5f9;
+        transition: background 0.2s;
+        border-radius: 10px;
+        padding-left: 10px;
     }
-
+    .candidate-row:hover { background: #f8fafc; }
     .candidate-row:last-child { border-bottom: none; }
-
-    .candidate-name {
-        font-weight: 600;
-        color: #111827;
-        font-size: .95rem;
-    }
-
-    .vote-count {
-        font-size: .82rem;
-        color: #6B7280;
-    }
-
-    .pct-badge {
-        font-family: 'Syne', sans-serif;
-        font-size: .85rem;
-        font-weight: 700;
-        color: #C0392B;
-        min-width: 44px;
-        text-align: right;
-    }
-
-    .progress {
-        border-radius: 999px;
-        background: #F3F4F6;
-    }
-
-    .progress-bar {
-        background: linear-gradient(90deg, #C0392B, #E74C3C) !important;
-        border-radius: 999px;
-        transition: width .6s cubic-bezier(.4,0,.2,1);
-    }
-
-    .date-chip {
-        background: #F1F5F9;
-        color: #64748B;
-        border-radius: 999px;
-        padding: 5px 14px;
-        font-size: .78rem;
-        font-weight: 500;
-    }
 </style>
 
-<div class="dashboard-root mt-5 pt-5 px-4 mx-auto">
+<div class="container py-4">
+
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="dashboard-title fw-bold mb-0">
-            Tableau de bord <span style="color:#C0392B">Admin</span>
-        </h2>
-        <span class="date-chip">📅 @DateTime.Now.ToString("dd/MM/yyyy")</span>
+    <div class="dashboard-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1" style="color:#1e293b; font-size:1.8rem;">
+                <i class="fas fa-chart-pie me-2" style="color:#3b82f6;"></i>
+                Tableau de bord
+            </h2>
+            <p class="text-muted mb-0" style="font-size:0.9rem;">
+                Vue d'ensemble du système de vote
+            </p>
+        </div>
+        <span class="badge rounded-pill px-3 py-2"
+              style="background:#eff6ff; color:#1e40af; font-size:0.85rem; font-weight:600;">
+            <i class="fas fa-calendar me-1"></i>@DateTime.Now.ToString("dd/MM/yyyy")
+        </span>
     </div>
 
     <!-- Stat Cards -->
     <div class="row g-3 mb-4">
         <div class="col-md-3 col-sm-6">
-            <div class="card stat-card border-0 shadow-sm text-center p-4">
-                <div class="card-accent accent-blue"></div>
-                <div class="stat-icon icon-blue">👥</div>
-                <div class="stat-value">@Model.total_citoyens</div>
-                <div class="stat-label">Total citoyens</div>
+            <div class="card stat-card position-relative p-4">
+                <div class="stat-border-left" style="background:#3b82f6;"></div>
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-2"
+                           style="font-size:0.75rem; text-transform:uppercase;
+                                  letter-spacing:0.8px; font-weight:600;">
+                            Total Citoyens
+                        </p>
+                        <div class="stat-value" style="color:#1e293b;">
+                            @Model.total_citoyens
+                        </div>
+                    </div>
+                    <div class="stat-icon" style="background:#eff6ff;">
+                        <i class="fas fa-users" style="color:#3b82f6;"></i>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="col-md-3 col-sm-6">
-            <div class="card stat-card border-0 shadow-sm text-center p-4">
-                <div class="card-accent accent-indigo"></div>
-                <div class="stat-icon icon-indigo">🪪</div>
-                <div class="stat-value">@Model.cin_delivered</div>
-                <div class="stat-label">CIN approuvées</div>
+            <div class="card stat-card position-relative p-4">
+                <div class="stat-border-left" style="background:#6366f1;"></div>
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-2"
+                           style="font-size:0.75rem; text-transform:uppercase;
+                                  letter-spacing:0.8px; font-weight:600;">
+                            CIN Approuvées
+                        </p>
+                        <div class="stat-value" style="color:#1e293b;">
+                            @Model.cin_delivered
+                        </div>
+                    </div>
+                    <div class="stat-icon" style="background:#eef2ff;">
+                        <i class="fas fa-id-card" style="color:#6366f1;"></i>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="col-md-3 col-sm-6">
-            <div class="card stat-card border-0 shadow-sm text-center p-4">
-                <div class="card-accent accent-amber"></div>
-                <div class="stat-icon icon-amber">⏳</div>
-                <div class="stat-value text-warning">@Model.pending_requests</div>
-                <div class="stat-label">En attente</div>
+            <div class="card stat-card position-relative p-4">
+                <div class="stat-border-left" style="background:#f59e0b;"></div>
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-2"
+                           style="font-size:0.75rem; text-transform:uppercase;
+                                  letter-spacing:0.8px; font-weight:600;">
+                            En Attente
+                        </p>
+                        <div class="stat-value" style="color:#f59e0b;">
+                            @Model.pending_requests
+                        </div>
+                    </div>
+                    <div class="stat-icon" style="background:#fffbeb;">
+                        <i class="fas fa-clock" style="color:#f59e0b;"></i>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="col-md-3 col-sm-6">
-            <div class="card stat-card border-0 shadow-sm text-center p-4">
-                <div class="card-accent accent-green"></div>
-                <div class="stat-icon icon-green">🗳️</div>
-                <div class="stat-value text-success">@Model.total_votes</div>
-                <div class="stat-label">Votes enregistrés</div>
+            <div class="card stat-card position-relative p-4">
+                <div class="stat-border-left" style="background:#10b981;"></div>
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-2"
+                           style="font-size:0.75rem; text-transform:uppercase;
+                                  letter-spacing:0.8px; font-weight:600;">
+                            Votes Enregistrés
+                        </p>
+                        <div class="stat-value" style="color:#10b981;">
+                            @Model.total_votes
+                        </div>
+                    </div>
+                    <div class="stat-icon" style="background:#ecfdf5;">
+                        <i class="fas fa-vote-yea" style="color:#10b981;"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Election Results -->
+    <!-- Résultats élection -->
     @if (ViewBag.Resultats != null)
     {
-        <div class="card results-card border-0 shadow-sm">
-            <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="card results-card">
+            <div class="card-header border-0 d-flex justify-content-between align-items-center p-4"
+                 style="background:linear-gradient(135deg,#1e40af,#3b82f6);
+                        border-radius:16px 16px 0 0;">
                 <div class="d-flex align-items-center gap-2">
-                    <span style="font-size:1.1rem">🗳️</span>
-                    <span class="fw-bold" style="font-family:'Syne',sans-serif;font-size:1rem;">
-                        Résultats des votes
-                    </span>
+                    <i class="fas fa-bar-chart text-white" style="font-size:1.1rem;"></i>
+                    <span class="fw-bold text-white">Résultats des votes</span>
                 </div>
-                <span class="badge-election">@ViewBag.ElectionTitre</span>
+                <span class="badge px-3 py-2"
+                      style="background:rgba(255,255,255,0.2); color:white;
+                             border-radius:999px; font-size:0.8rem;">
+                    @ViewBag.ElectionTitre
+                </span>
             </div>
-            <div class="card-body px-4 py-3">
-                @{ var total = ((List<examencsharp.Models.Views.VResult>)ViewBag.Resultats).Sum(r => r.total_votes); }
-                @foreach (var r in (List<examencsharp.Models.Views.VResult>)ViewBag.Resultats)
+            <div class="card-body p-4">
+                @{
+                    var resultats = (List<examencsharp.Models.Views.VResult>)ViewBag.Resultats;
+                    var total = resultats.Sum(r => r.total_votes);
+                }
+                @foreach (var r in resultats)
                 {
-                    var pct = total > 0 ? Math.Round((double)r.total_votes / total * 100, 1) : 0;
-                    <div class="candidate-row">
+                    var pct = total > 0
+                        ? Math.Round((double)r.total_votes / total * 100, 1) : 0;
+                    <div class="candidate-row mb-2">
                         <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="candidate-name">@r.NomCandidat @r.PrenomCandidat</span>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="rounded-circle d-flex align-items-center
+                                            justify-content-center"
+                                     style="width:38px; height:38px; background:#eff6ff;
+                                            min-width:38px;">
+                                    <i class="fas fa-user" style="color:#3b82f6; font-size:0.9rem;"></i>
+                                </div>
+                                <span class="fw-semibold" style="color:#1e293b;">
+                                    @r.NomCandidat @r.PrenomCandidat
+                                </span>
+                            </div>
                             <div class="d-flex align-items-center gap-3">
-                                <span class="vote-count">@r.total_votes votes</span>
-                                <span class="pct-badge">@pct%</span>
+                                <span class="text-muted" style="font-size:0.85rem;">
+                                    @r.total_votes votes
+                                </span>
+                                <span class="fw-bold" style="color:#1e40af; min-width:48px;
+                                             text-align:right;">
+                                    @pct%
+                                </span>
                             </div>
                         </div>
-                        <div class="progress" style="height:8px">
-                            <div class="progress-bar bg-danger" style="width:@pct%"></div>
+                        <div class="progress" style="height:10px; border-radius:999px;
+                                                     background:#f1f5f9;">
+                            <div class="progress-bar progress-bar-animated"
+                                 style="width:@pct%; border-radius:999px;
+                                        background:linear-gradient(90deg,#1e40af,#3b82f6);">
+                            </div>
                         </div>
                     </div>
                 }
             </div>
+        </div>
+    }
+    else
+    {
+        <div class="card results-card text-center p-5">
+            <i class="fas fa-inbox text-muted mb-3" style="font-size:3rem;"></i>
+            <h5 class="text-muted">Aucune élection active pour le moment</h5>
+            <a href="/Election/Create" class="btn btn-primary mt-3 px-4"
+               style="border-radius:10px;">
+                <i class="fas fa-plus me-2"></i>Créer une élection
+            </a>
         </div>
     }
 </div>
