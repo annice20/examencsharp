@@ -1,6 +1,18 @@
 using Microsoft.EntityFrameworkCore;
-using examencsharp; 
+using examencsharp;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(
@@ -10,22 +22,32 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 );
 
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Ajout du EmailService
+builder.Services.AddScoped<examencsharp.Services.EmailService>();
+
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
-app.UseAuthorization();
+app.UseCors("AllowAll");
 
-if (!app.Environment.IsDevelopment())
+// Middleware
+if (app.Environment.IsDevelopment())
+{
+    // Swagger uniquement en développement
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();

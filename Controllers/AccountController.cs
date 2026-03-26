@@ -11,10 +11,10 @@ namespace examencsharp.Controllers
         private readonly ApplicationDbContext _context;
         private readonly EmailService _emailService;
 
-        public AccountController(ApplicationDbContext context)
+        public AccountController(ApplicationDbContext context, EmailService emailService)
         {
             _context = context;
-            _emailService = new EmailService();
+            _emailService = emailService;
         }
 
         // LOGIN GET

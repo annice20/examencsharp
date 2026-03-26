@@ -60,6 +60,10 @@
             "Pomelo.EntityFrameworkCore.Mysql": {
               "target": "Package",
               "version": "[9.0.0, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[10.1.6, )"
             }
           },
           "imports": [
