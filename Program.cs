@@ -38,8 +38,6 @@ builder.Services.AddScoped<examencsharp.Services.EmailService>();
 
 var app = builder.Build();
 
-app.UseCors("AllowAll");
-
 // Middleware
 if (app.Environment.IsDevelopment())
 {
@@ -56,6 +54,7 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseCors("AllowAll");
 app.UseSession();
 app.UseAuthorization();
 

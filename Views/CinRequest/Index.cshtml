@@ -1,0 +1,155 @@
+@model List<examencsharp.Models.CinRequest>
+@{ ViewData["Title"] = "Gestion des CIN"; }
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1" style="color:#1e293b;">
+                <i class="fas fa-id-card me-2" style="color:#f59e0b;"></i>
+                Gestion des CIN
+            </h2>
+            <p class="text-muted mb-0" style="font-size:0.9rem;">
+                Approuver ou refuser les demandes de CIN
+            </p>
+        </div>
+        <span class="badge rounded-pill px-3 py-2"
+              style="background:#fffbeb; color:#b45309; font-size:0.85rem; font-weight:600;">
+            <i class="fas fa-clock me-1"></i>
+            @Model.Count(r => r.Status == "En attente") en attente
+        </span>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert border-0 mb-4 p-3"
+             style="background:#f0fdf4; color:#166534; border-radius:12px;">
+            <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert border-0 mb-4 p-3"
+             style="background:#fef2f2; color:#dc2626; border-radius:12px;">
+            <i class="fas fa-times-circle me-2"></i>@TempData["Error"]
+        </div>
+    }
+
+    <div class="card border-0" style="border-radius:16px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+        <div class="card-body p-0">
+            <table class="table mb-0" style="border-radius:16px; overflow:hidden;">
+                <thead>
+                    <tr style="background:#f8fafc;">
+                        <th class="px-4 py-3" style="font-size:0.78rem; text-transform:uppercase;
+                                   letter-spacing:0.6px; color:#64748b; font-weight:600; border:none;">
+                            Citoyen
+                        </th>
+                        <th class="px-4 py-3" style="font-size:0.78rem; text-transform:uppercase;
+                                   letter-spacing:0.6px; color:#64748b; font-weight:600; border:none;">
+                            CIN
+                        </th>
+                        <th class="px-4 py-3" style="font-size:0.78rem; text-transform:uppercase;
+                                   letter-spacing:0.6px; color:#64748b; font-weight:600; border:none;">
+                            Date demande
+                        </th>
+                        <th class="px-4 py-3" style="font-size:0.78rem; text-transform:uppercase;
+                                   letter-spacing:0.6px; color:#64748b; font-weight:600; border:none;">
+                            Status
+                        </th>
+                        <th class="px-4 py-3" style="font-size:0.78rem; text-transform:uppercase;
+                                   letter-spacing:0.6px; color:#64748b; font-weight:600; border:none;">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in Model)
+                    {
+                        <tr style="border-top:1px solid #f1f5f9;">
+                            <td class="px-4 py-3" style="border:none;">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="rounded-circle d-flex align-items-center
+                                                justify-content-center"
+                                         style="width:36px; height:36px; background:#eff6ff;
+                                                min-width:36px;">
+                                        <i class="fas fa-user" style="color:#3b82f6; font-size:0.85rem;"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-semibold" style="color:#1e293b; font-size:0.9rem;">
+                                            @r.Citoyen?.NomCitoyen @r.Citoyen?.PrenomCitoyen
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3" style="border:none;">
+                                <code style="background:#f1f5f9; padding:4px 8px;
+                                             border-radius:6px; font-size:0.85rem; color:#1e293b;">
+                                    @r.Citoyen?.CIN
+                                </code>
+                            </td>
+                            <td class="px-4 py-3 text-muted" style="border:none; font-size:0.88rem;">
+                                @r.RequestDate.ToString("dd/MM/yyyy HH:mm")
+                            </td>
+                            <td class="px-4 py-3" style="border:none;">
+                                @if (r.Status == "Approuvé")
+                                {
+                                    <span class="badge px-3 py-2"
+                                          style="background:#f0fdf4; color:#166534;
+                                                 border-radius:999px; font-size:0.8rem;">
+                                        <i class="fas fa-check-circle me-1"></i>Approuvé
+                                    </span>
+                                }
+                                else if (r.Status == "Refusé")
+                                {
+                                    <span class="badge px-3 py-2"
+                                          style="background:#fef2f2; color:#dc2626;
+                                                 border-radius:999px; font-size:0.8rem;">
+                                        <i class="fas fa-times-circle me-1"></i>Refusé
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge px-3 py-2"
+                                          style="background:#fffbeb; color:#b45309;
+                                                 border-radius:999px; font-size:0.8rem;">
+                                        <i class="fas fa-clock me-1"></i>En attente
+                                    </span>
+                                }
+                            </td>
+                            <td class="px-4 py-3" style="border:none;">
+                                @if (r.Status == "En attente")
+                                {
+                                    <div class="d-flex gap-2">
+                                        <form asp-action="Approuver" asp-route-id="@r.Id" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-sm px-3"
+                                                    style="background:#f0fdf4; color:#166534;
+                                                           border:1px solid #bbf7d0; border-radius:8px;
+                                                           font-weight:600; font-size:0.82rem;">
+                                                <i class="fas fa-check me-1"></i>Approuver
+                                            </button>
+                                        </form>
+                                        <form asp-action="Refuser" asp-route-id="@r.Id" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-sm px-3"
+                                                    style="background:#fef2f2; color:#dc2626;
+                                                           border:1px solid #fecaca; border-radius:8px;
+                                                           font-weight:600; font-size:0.82rem;">
+                                                <i class="fas fa-times me-1"></i>Refuser
+                                            </button>
+                                        </form>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted" style="font-size:0.85rem;">
+                                        <i class="fas fa-lock me-1"></i>Traité
+                                    </span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

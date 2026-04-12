@@ -19,6 +19,7 @@
     <None Update="Data/data.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <PackageReference Include="QRCoder" Version="1.8.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.6" />
   </ItemGroup>
 

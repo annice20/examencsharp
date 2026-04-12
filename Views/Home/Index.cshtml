@@ -1,101 +1,625 @@
 ﻿@{
     ViewData["Title"] = "Accueil";
+    Layout = null; // Page manontolo — tsy misy navbar
 }
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>E-VOTE.MG — Scrutin Numérique Officiel</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: "Inter", sans-serif; overflow-x: hidden; }
 
-<style>
-    .hero-section {
-        background: radial-gradient(circle at top right, #1e293b, #0f172a);
-        min-height: 100vh;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        color: white;
-        padding-top: 80px;
-        margin: 0;
-    }
+        /* ===== NAVBAR ===== */
+        .landing-nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+        .landing-nav.scrolled {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .nav-logo {
+            font-size: 1.5rem; font-weight: 800;
+            color: white !important; text-decoration: none;
+        }
+        .nav-logo span { color: #6366f1; }
+        .btn-nav-login {
+            background: transparent;
+            color: white !important;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 8px; padding: 8px 20px;
+            font-weight: 600; font-size: 0.9rem;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .btn-nav-login:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+        .btn-nav-register {
+            background: #6366f1; color: white !important;
+            border-radius: 8px; padding: 8px 20px;
+            font-weight: 600; font-size: 0.9rem;
+            text-decoration: none; transition: all 0.2s;
+            border: none;
+        }
+        .btn-nav-register:hover {
+            background: #4f46e5;
+            transform: translateY(-1px);
+        }
 
-    .hero-title {
-        font-weight: 800;
-        font-size: calc(1.5rem + 3.5vw);
-        line-height: 1.1;
-        margin-bottom: 1.5rem;
-    }
+        /* ===== HERO ===== */
+        .hero {
+            background: radial-gradient(ellipse at top right, #1e1b4b 0%, #0f172a 50%, #020617 100%);
+            min-height: 100vh;
+            display: flex; align-items: center;
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 70% 30%, rgba(99,102,241,0.15) 0%, transparent 50%);
+            animation: rotateBg 20s linear infinite;
+        }
+        @@keyframes rotateBg {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(99,102,241,0.15);
+            border: 1px solid rgba(99,102,241,0.3);
+            color: #a5b4fc; border-radius: 999px;
+            padding: 8px 18px; font-size: 0.85rem; font-weight: 600;
+            margin-bottom: 24px;
+        }
+        .hero-badge .dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #6366f1;
+            animation: blink 1.5s ease infinite;
+        }
+        @@keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900; line-height: 1.05;
+            color: white; margin-bottom: 24px;
+            letter-spacing: -2px;
+        }
+        .hero-title .highlight {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-subtitle {
+            color: rgba(255,255,255,0.6);
+            font-size: 1.15rem; line-height: 1.7;
+            margin-bottom: 40px; max-width: 550px;
+        }
+        .btn-hero-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white; border: none;
+            padding: 16px 32px; border-radius: 12px;
+            font-weight: 700; font-size: 1rem;
+            text-decoration: none; display: inline-flex;
+            align-items: center; gap: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(99,102,241,0.4);
+        }
+        .btn-hero-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(99,102,241,0.5);
+            color: white;
+        }
+        .btn-hero-outline {
+            background: transparent; color: white;
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 16px 32px; border-radius: 12px;
+            font-weight: 600; font-size: 1rem;
+            text-decoration: none; display: inline-flex;
+            align-items: center; gap: 8px;
+            transition: all 0.3s;
+        }
+        .btn-hero-outline:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.5);
+            color: white; transform: translateY(-2px);
+        }
 
-    .text-indigo { color: #6366f1; }
+        /* Stats flottantes */
+        .hero-stats {
+            display: flex; gap: 32px; margin-top: 56px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .hero-stat-value {
+            font-size: 1.8rem; font-weight: 800; color: white;
+        }
+        .hero-stat-label {
+            font-size: 0.8rem; color: rgba(255,255,255,0.5);
+            text-transform: uppercase; letter-spacing: 0.8px;
+        }
 
-    .btn-hero-primary {
-        background: #6366f1;
-        color: white;
-        border: none;
-        padding: 14px 28px;
-        border-radius: 10px;
-        font-weight: 600;
-        transition: 0.3s;
-    }
+        /* Card flottante */
+        .floating-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px; padding: 28px;
+            animation: float 6s ease-in-out infinite;
+        }
+        @@keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .vote-item {
+            display: flex; align-items: center; gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .vote-item:last-child { border-bottom: none; }
+        .vote-avatar {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1rem; flex-shrink: 0;
+        }
+        .vote-bar-bg {
+            flex: 1; height: 6px; border-radius: 999px;
+            background: rgba(255,255,255,0.1);
+        }
+        .vote-bar { height: 100%; border-radius: 999px; }
 
-    .btn-hero-outline {
-        background: transparent;
-        color: white;
-        border: 1px solid rgba(255,255,255,0.4);
-        padding: 14px 28px;
-        border-radius: 10px;
-        font-weight: 600;
-        transition: 0.3s;
-    }
+        /* ===== FEATURES ===== */
+        .features-section {
+            background: #f8fafc; padding: 100px 0;
+        }
+        .section-label {
+            display: inline-block;
+            background: #eff6ff; color: #3b82f6;
+            border-radius: 999px; padding: 6px 16px;
+            font-size: 0.8rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.8px;
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800; color: #0f172a;
+            letter-spacing: -1px; line-height: 1.2;
+        }
+        .feature-card {
+            background: white; border-radius: 20px;
+            padding: 36px; height: 100%;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+            position: relative; overflow: hidden;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        .feature-card:hover::before { transform: scaleX(1); }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: #c7d2fe;
+        }
+        .feature-icon {
+            width: 56px; height: 56px; border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 20px;
+        }
+        .feature-title {
+            font-size: 1.1rem; font-weight: 700;
+            color: #0f172a; margin-bottom: 10px;
+        }
+        .feature-desc {
+            color: #64748b; font-size: 0.92rem; line-height: 1.6;
+        }
 
-    .btn-hero-primary:hover, .btn-hero-outline:hover {
-        transform: translateY(-3px);
-        background: #4f46e5;
-        color: white;
-    }
+        /* ===== STEPS ===== */
+        .steps-section {
+            background: #0f172a; padding: 100px 0;
+            position: relative; overflow: hidden;
+        }
+        .steps-section::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(99,102,241,0.1) 0%, transparent 60%);
+        }
+        .step-number {
+            width: 48px; height: 48px; border-radius: 14px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 1.1rem; color: white;
+            margin-bottom: 20px; flex-shrink: 0;
+        }
+        .step-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px; padding: 36px; height: 100%;
+            transition: all 0.3s;
+        }
+        .step-card:hover {
+            background: rgba(99,102,241,0.1);
+            border-color: rgba(99,102,241,0.3);
+            transform: translateY(-6px);
+        }
+        .step-title {
+            font-size: 1.1rem; font-weight: 700;
+            color: white; margin-bottom: 10px;
+        }
+        .step-desc { color: rgba(255,255,255,0.5); font-size: 0.92rem; line-height: 1.6; }
 
-    /* Section Étapes style Portfolio */
-    .step-card {
-        background: white;
-        border-radius: 16px;
-        padding: 40px;
-        border: 1px solid #e2e8f0;
-        transition: 0.4s;
-        height: 100%;
-    }
+        /* ===== CTA ===== */
+        .cta-section {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+            padding: 100px 0; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute; top: -100px; left: -100px;
+            width: 400px; height: 400px; border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+        }
+        .cta-section::after {
+            content: '';
+            position: absolute; bottom: -100px; right: -100px;
+            width: 500px; height: 500px; border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+        }
+        .btn-cta {
+            background: white;
+            color: #6366f1 !important;
+            border-radius: 12px; padding: 18px 40px;
+            font-weight: 800; font-size: 1.1rem;
+            text-decoration: none; display: inline-flex;
+            align-items: center; gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative; z-index: 1;
+        }
+        .btn-cta:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
 
-    .step-card:hover {
-        transform: translateY(-12px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-        border-color: #6366f1;
-    }
+        /* ===== FOOTER ===== */
+        .landing-footer {
+            background: #020617; color: rgba(255,255,255,0.4);
+            padding: 40px 0; text-align: center;
+            font-size: 0.88rem;
+        }
 
-    .section-tag {
-        background: rgba(99, 102, 241, 0.1);
-        color: #6366f1;
-        padding: 6px 16px;
-        border-radius: 50px;
-        font-weight: 700;
-        font-size: 0.8rem;
-        text-transform: uppercase;
-    }
-</style>
+        /* ===== ANIMATIONS ===== */
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: all 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1; transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
 
-<section class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-7 animate__animated animate__fadeInLeft">
-                <span class="section-tag mb-3 d-inline-block">Scrutin Numérique Officiel</span>
-                <h1 class="hero-title">
-                    Le futur du vote <br>au <span class="text-indigo">Fokontany</span> est ici.
-                </h1>
-                <p class="lead mb-5 opacity-75 fs-4">
-                    Une plateforme transparente, cryptée et accessible à tous les citoyens. 
-                    Exprimez votre voix en toute sécurité.
-                </p>
-                <div class="d-flex gap-3">
-                    <a href="/Account/Register" class="btn btn-hero-primary">Créer mon compte</a>
-                    <a href="/Account/Login" class="btn btn-hero-outline">Connexion</a>
-                </div>
-            </div>
-            <div class="col-lg-5 d-none d-lg-block animate__animated animate__zoomIn text-end">
-                <img src="https://illustrations.popsy.co/white/abstract-art-6.svg" alt="Illustration" class="img-fluid" style="max-height: 70vh;" />
+    <!-- NAVBAR -->
+    <nav class="landing-nav" id="landingNav">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="/" class="nav-logo">E-VOTE<span>.</span>MG</a>
+            <div class="d-flex gap-3 align-items-center">
+                <a href="/Account/Login" class="btn-nav-login">Se connecter</a>
+                <a href="/Account/Register" class="btn-nav-register">Créer un compte</a>
             </div>
         </div>
-    </div>
-</section>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container position-relative">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <div class="hero-badge">
+                        <span class="dot"></span>
+                        Scrutin Numérique Officiel — Madagascar
+                    </div>
+                    <h1 class="hero-title animate__animated animate__fadeInUp">
+                        Le vote du<br>
+                        <span class="highlight">Fokontany,</span><br>
+                        réinventé.
+                    </h1>
+                    <p class="hero-subtitle animate__animated animate__fadeInUp animate__delay-1s">
+                        Une plateforme transparente, sécurisée et accessible à tous les citoyens.
+                        Exprimez votre voix depuis n'importe où, en toute confiance.
+                    </p>
+                    <div class="d-flex gap-3 flex-wrap animate__animated animate__fadeInUp animate__delay-1s">
+                        <a href="/Account/Register" class="btn-hero-primary">
+                            <i class="fas fa-rocket"></i> Commencer maintenant
+                        </a>
+                        <a href="/Account/Login" class="btn-hero-outline">
+                            <i class="fas fa-sign-in-alt"></i> Se connecter
+                        </a>
+                    </div>
+                    <div class="hero-stats animate__animated animate__fadeInUp animate__delay-2s">
+                        <div>
+                            <div class="hero-stat-value">100%</div>
+                            <div class="hero-stat-label">Sécurisé</div>
+                        </div>
+                        <div>
+                            <div class="hero-stat-value">QR</div>
+                            <div class="hero-stat-label">Confirmation</div>
+                        </div>
+                        <div>
+                            <div class="hero-stat-value">2FA</div>
+                            <div class="hero-stat-label">Authentification</div>
+                        </div>
+                        <div>
+                            <div class="hero-stat-value">Live</div>
+                            <div class="hero-stat-label">Résultats</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card flottante -->
+                <div class="col-lg-6 d-none d-lg-block">
+                    <div class="floating-card">
+                        <div class="d-flex align-items-center justify-content-between mb-20"
+                             style="margin-bottom:20px;">
+                            <div>
+                                <div style="color:white; font-weight:700; font-size:1rem;">
+                                    🗳️ Résultats en direct
+                                </div>
+                                <div style="color:rgba(255,255,255,0.4); font-size:0.8rem;">
+                                    Election Fokontany 2025
+                                </div>
+                            </div>
+                            <span style="background:rgba(16,185,129,0.2); color:#10b981;
+                                         border-radius:999px; padding:4px 12px; font-size:0.78rem;
+                                         font-weight:600;">
+                                ● En cours
+                            </span>
+                        </div>
+
+                        <div class="vote-item">
+                            <div class="vote-avatar" style="background:rgba(99,102,241,0.2); color:#a5b4fc;">R</div>
+                            <div style="flex:1;">
+                                <div style="color:white; font-weight:600; font-size:0.9rem; margin-bottom:6px;">
+                                    Rasoa Marie
+                                </div>
+                                <div class="vote-bar-bg">
+                                    <div class="vote-bar" style="width:65%; background:linear-gradient(90deg,#6366f1,#8b5cf6);"></div>
+                                </div>
+                            </div>
+                            <div style="color:white; font-weight:700; font-size:0.9rem; min-width:40px; text-align:right;">65%</div>
+                        </div>
+
+                        <div class="vote-item">
+                            <div class="vote-avatar" style="background:rgba(6,182,212,0.2); color:#67e8f9;">R</div>
+                            <div style="flex:1;">
+                                <div style="color:white; font-weight:600; font-size:0.9rem; margin-bottom:6px;">
+                                    Rakoto Jean
+                                </div>
+                                <div class="vote-bar-bg">
+                                    <div class="vote-bar" style="width:35%; background:linear-gradient(90deg,#06b6d4,#0ea5e9);"></div>
+                                </div>
+                            </div>
+                            <div style="color:white; font-weight:700; font-size:0.9rem; min-width:40px; text-align:right;">35%</div>
+                        </div>
+
+                        <div style="margin-top:20px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.08);
+                                    display:flex; justify-content:space-between; align-items:center;">
+                            <span style="color:rgba(255,255,255,0.4); font-size:0.8rem;">
+                                <i class="fas fa-users me-1"></i>247 votes enregistrés
+                            </span>
+                            <span style="color:#10b981; font-size:0.8rem; font-weight:600;">
+                                <i class="fas fa-sync-alt me-1"></i>Mis à jour
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features-section">
+        <div class="container">
+            <div class="text-center mb-5 reveal">
+                <span class="section-label">Fonctionnalités</span>
+                <h2 class="section-title mt-2">
+                    Tout ce dont vous avez<br>besoin pour voter
+                </h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4 reveal">
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background:#eff6ff;">
+                            <i class="fas fa-shield-alt" style="color:#3b82f6;"></i>
+                        </div>
+                        <div class="feature-title">Sécurité maximale</div>
+                        <div class="feature-desc">
+                            Authentification à deux facteurs (2FA), chiffrement des données
+                            et anti-double vote intégré.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 reveal">
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background:#f0fdf4;">
+                            <i class="fas fa-qrcode" style="color:#10b981;"></i>
+                        </div>
+                        <div class="feature-title">Confirmation QR Code</div>
+                        <div class="feature-desc">
+                            Chaque vote est confirmé par un QR Code unique,
+                            preuve de votre participation.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 reveal">
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background:#fdf4ff;">
+                            <i class="fas fa-chart-bar" style="color:#a855f7;"></i>
+                        </div>
+                        <div class="feature-title">Résultats en temps réel</div>
+                        <div class="feature-desc">
+                            Suivez les résultats en direct avec des graphiques
+                            clairs et transparents.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 reveal">
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background:#fff7ed;">
+                            <i class="fas fa-id-card" style="color:#f97316;"></i>
+                        </div>
+                        <div class="feature-title">Vérification CIN</div>
+                        <div class="feature-desc">
+                            Vérification d'identité par CIN pour garantir
+                            l'éligibilité de chaque votant.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 reveal">
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background:#eff6ff;">
+                            <i class="fas fa-map-marker-alt" style="color:#3b82f6;"></i>
+                        </div>
+                        <div class="feature-title">Par Fokontany</div>
+                        <div class="feature-desc">
+                            Chaque citoyen vote uniquement pour les candidats
+                            de son Fokontany d'appartenance.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 reveal">
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background:#f0fdf4;">
+                            <i class="fas fa-mobile-alt" style="color:#10b981;"></i>
+                        </div>
+                        <div class="feature-title">Accessible partout</div>
+                        <div class="feature-desc">
+                            Interface responsive, accessible depuis mobile,
+                            tablette ou ordinateur.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STEPS -->
+    <section class="steps-section">
+        <div class="container position-relative">
+            <div class="text-center mb-5 reveal">
+                <span class="section-label" style="background:rgba(99,102,241,0.15); color:#a5b4fc;">
+                    Comment ça marche
+                </span>
+                <h2 class="section-title mt-2" style="color:white;">
+                    Voter en 4 étapes simples
+                </h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-3 reveal">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Créer un compte</div>
+                        <div class="step-desc">Inscrivez-vous avec votre email et créez votre profil citoyen.</div>
+                    </div>
+                </div>
+                <div class="col-md-3 reveal">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Vérifier votre CIN</div>
+                        <div class="step-desc">Soumettez votre CIN pour validation par l'administrateur.</div>
+                    </div>
+                </div>
+                <div class="col-md-3 reveal">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Choisir un candidat</div>
+                        <div class="step-desc">Consultez les candidats de votre Fokontany et faites votre choix.</div>
+                    </div>
+                </div>
+                <div class="col-md-3 reveal">
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Confirmer le vote</div>
+                        <div class="step-desc">Recevez votre QR Code de confirmation — votre voix est comptée !</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container position-relative" style="z-index:1;">
+            <div class="reveal">
+                <h2 style="color:white; font-weight:900; font-size:clamp(2rem,5vw,3.5rem);
+                            letter-spacing:-1.5px; margin-bottom:16px;">
+                    Prêt à faire entendre<br>votre voix ?
+                </h2>
+                <p style="color:rgba(255,255,255,0.8); font-size:1.1rem; margin-bottom:40px;">
+                    Rejoignez la plateforme de vote numérique officielle de Madagascar.
+                </p>
+                <a href="/Account/Register" class="btn-cta">
+                    <i class="fas fa-vote-yea"></i>
+                    Créer mon compte gratuitement
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="landing-footer">
+        <div class="container">
+            <div class="mb-2">
+                <strong style="color:white;">E-VOTE<span style="color:#6366f1;">.</span>MG</strong>
+            </div>
+            <p>© @DateTime.Now.Year E-VOTE.MG — Plateforme de vote numérique pour les Fokontany de Madagascar</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('landingNav');
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        // Reveal on scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, i * 100);
+                }
+            });
+        }, { threshold: 0.1 });
+        reveals.forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
