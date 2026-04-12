@@ -35,6 +35,7 @@ builder.Services.AddSwaggerGen();
 
 // Ajout du EmailService
 builder.Services.AddScoped<examencsharp.Services.EmailService>();
+builder.Services.AddScoped<QRCodeService>();
 
 var app = builder.Build();
 
@@ -63,4 +64,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}"
 );
 
+// Accepter les connexions de tout le réseau
+app.Urls.Clear();
+app.Urls.Add("http://0.0.0.0:5207");
 app.Run();

@@ -1,0 +1,49 @@
+@model examencsharp.Models.Citoyen
+@{ ViewData["Title"] = "Vérification Citoyen"; }
+
+<div class="container mt-5">
+    <div class="card border-0 shadow-sm mx-auto" style="max-width:500px">
+
+        <div class="card-header bg-success text-white text-center py-3">
+            <h4 class="mb-0">Citoyen Vérifié</h4>
+        </div>
+
+        <div class="card-body p-4">
+            <table class="table table-borderless">
+                <tr>
+                    <td class="fw-bold">Nom</td>
+                    <td>@Model.NomCitoyen @Model.PrenomCitoyen</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">CIN</td>
+                    <td>@Model.CIN</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Fokontany</td>
+                    <td>@Model.Fokontany?.NomFokontany</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold">Statut</td>
+                    <td>
+                        @if (Model.ADejaVote)
+                        {
+                            <span class="badge bg-danger">A déjà voté</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">Éligible</span>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card-footer text-center py-3">
+            <a asp-controller="Vote" asp-action="Index"
+               class="btn btn-secondary">
+                Retour
+            </a>
+        </div>
+
+    </div>
+</div>

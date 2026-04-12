@@ -23,6 +23,9 @@ namespace examencsharp.Models
         public int FokontanyId { get; set; }
         public Fokontany? Fokontany { get; set; }
 
+        public string QRCodeToken { get; set; } = Guid.NewGuid().ToString();
+        public bool ADejaVote { get; set; } = false;
+
         public ICollection<CinRequest>? CinRequests { get; set; }
 
         public ICollection<Vote>? Votes { get; set; }

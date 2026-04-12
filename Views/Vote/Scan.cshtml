@@ -1,0 +1,103 @@
+@* Views/Vote/Scan.cshtml *@
+@{ ViewData["Title"] = "Scanner QR Code"; }
+
+@Html.AntiForgeryToken()
+
+<div class="container mt-4">
+    <h2>Scanner QR Code</h2>
+
+    <div class="mb-3">
+        <label>Token QR Code</label>
+        <input type="text" id="token" class="form-control" 
+               placeholder="Scanner ou coller le token" />
+    </div>
+
+    <input type="hidden" id="candidatId" value="" />
+    <input type="hidden" id="electionId" value="@ViewBag.ElectionId" />
+
+    <div class="d-flex gap-2">
+        <button class="btn btn-outline-primary" onclick="verifier()">
+            Vérifier
+        </button>
+        <button class="btn btn-success" onclick="voter()">
+            Voter
+        </button>
+    </div>
+
+    <div class="mt-3">
+        <p id="resultat" class="alert" style="display:none"></p>
+    </div>
+</div>
+
+@* Liste des candidats pour choisir *@
+<div class="mt-4" id="listeCandidats" style="display:none">
+    <h4>Choisir un candidat :</h4>
+    <div id="candidatsContainer"></div>
+</div>
+
+<script>
+function getAntiForgeryToken() {
+    return document.querySelector('input[name="__RequestVerificationToken"]').value;
+}
+
+function afficherResultat(message, type = "info") {
+    const el = document.getElementById('resultat');
+    el.style.display = 'block';
+    el.className = `alert alert-${type}`;
+    el.innerText = message;
+}
+
+function verifier() {
+    const token = document.getElementById('token').value;
+    if (!token) {
+        afficherResultat("Veuillez scanner ou coller un token.", "warning");
+        return;
+    }
+
+    fetch('/Vote/Verifier', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'token=' + token
+    })
+    .then(res => res.text())
+    .then(data => {
+        if (data.startsWith("Bienvenue")) {
+            afficherResultat(data, "success");
+            // Afficher les candidats après vérification réussie
+            document.getElementById('listeCandidats').style.display = 'block';
+        } else {
+            afficherResultat(data, "danger");
+        }
+    });
+}
+
+function voter() {
+    const token = document.getElementById('token').value;
+    const candidatId = document.getElementById('candidatId').value;
+    const electionId = document.getElementById('electionId').value;
+
+    if (!token) {
+        afficherResultat("Veuillez d'abord scanner le QR code.", "warning");
+        return;
+    }
+    if (!candidatId) {
+        afficherResultat("Veuillez sélectionner un candidat.", "warning");
+        return;
+    }
+
+    fetch('/Vote/Voter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `token=${token}&candidatId=${candidatId}&electionId=${electionId}`
+              + `&__RequestVerificationToken=${getAntiForgeryToken()}`
+    })
+    .then(res => res.text())
+    .then(data => afficherResultat(data, "success"));
+}
+
+// Sélectionner un candidat
+function choisirCandidat(id, nom) {
+    document.getElementById('candidatId').value = id;
+    afficherResultat(`Candidat sélectionné : ${nom}`, "info");
+}
+</script>

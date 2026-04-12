@@ -53,35 +53,84 @@ namespace examencsharp.Controllers
                 ViewBag.Fokontanys = await _db.Fokontany.ToListAsync();
                 return View(model);
             }
-            _db.Update(model);
+
+            // Récupérer le citoyen existant pour garder son token
+            var existing = await _db.Citoyens.FindAsync(model.Id);
+            if (existing == null) return NotFound();
+
+            existing.NomCitoyen    = model.NomCitoyen;
+            existing.PrenomCitoyen = model.PrenomCitoyen;
+            existing.CIN           = model.CIN;
+            existing.DateNaissance = model.DateNaissance;
+            existing.Address       = model.Address;
+            existing.FokontanyId   = model.FokontanyId;
+            existing.UtilisateurId = model.UtilisateurId;
+
             await _db.SaveChangesAsync();
             TempData["Success"] = "Citoyen mis à jour.";
             return RedirectToAction(nameof(Index));
         }
 
-public async Task<IActionResult> Create()
-{
-    if (!EstConnecte()) return RedirectToAction("Login", "Account");
-    ViewBag.Fokontanys = await _db.Fokontany.ToListAsync();
-    return View();
-}
+        public async Task<IActionResult> Create()
+        {
+            if (!EstConnecte()) return RedirectToAction("Login", "Account");
 
-[HttpPost, ValidateAntiForgeryToken]
-public async Task<IActionResult> Create(Citoyen model)
-{
-    if (!ModelState.IsValid)
-    {
-        ViewBag.Fokontanys = await _db.Fokontany.ToListAsync();
-        return View(model);
-    }
-    _db.Citoyens.Add(model);
-    await _db.SaveChangesAsync();
-    TempData["Success"] = "Citoyen créé avec succès.";
-    return RedirectToAction(nameof(Index));
-}
+            // Seul un Citoyen peut accéder à cette page
+            var role = HttpContext.Session.GetString("role");
+            if (role != "Citoyen")
+                return RedirectToAction("Index", "Home");
 
+            // Vérifier qu'il n'a pas déjà un profil citoyen
+            var userId = HttpContext.Session.GetInt32("userId");
+            var dejaLie = await _db.Citoyens.AnyAsync(c => c.UtilisateurId == userId);
+            if (dejaLie)
+            {
+                TempData["Error"] = "Vous avez déjà un profil citoyen.";
+                return RedirectToAction("Index");
+            }
 
-       [HttpPost, ValidateAntiForgeryToken]
+            ViewBag.Fokontanys = await _db.Fokontany.ToListAsync();
+            return View();
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Citoyen model)
+        {
+            if (!EstConnecte()) return RedirectToAction("Login", "Account");
+
+            var role = HttpContext.Session.GetString("role");
+            if (role != "Citoyen")
+                return RedirectToAction("Index", "Home");
+
+            // Récupérer l'userId depuis la session automatiquement
+            var userId = HttpContext.Session.GetInt32("userId");
+            if (userId == null)
+                return RedirectToAction("Login", "Account");
+
+            // Forcer l'UtilisateurId depuis la session
+            model.UtilisateurId = userId.Value;
+
+            // Générer le token automatiquement
+            model.QRCodeToken = Guid.NewGuid().ToString();
+
+            // Retirer les champs auto du ModelState
+            ModelState.Remove("QRCodeToken");
+            ModelState.Remove("UtilisateurId");
+            ModelState.Remove("Utilisateur");
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Fokontanys = await _db.Fokontany.ToListAsync();
+                return View(model);
+            }
+
+            _db.Citoyens.Add(model);
+            await _db.SaveChangesAsync();
+            TempData["Success"] = "Profil citoyen créé avec succès !";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             if (!EstConnecte()) return RedirectToAction("Login", "Account");
@@ -92,6 +141,19 @@ public async Task<IActionResult> Create(Citoyen model)
                 await _db.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> FixTokens()
+        {
+            var citoyens = _db.Citoyens
+                .Where(c => c.QRCodeToken == null || c.QRCodeToken == "")
+                .ToList();
+
+            foreach (var c in citoyens)
+                c.QRCodeToken = Guid.NewGuid().ToString();
+
+            await _db.SaveChangesAsync();
+            return Content($"{citoyens.Count} tokens générés avec succès !");
         }
     }
 }
