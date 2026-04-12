@@ -3,56 +3,136 @@
     ViewData["Title"] = "Liste des candidats";
 }
 
-
-<div class="container mt-5 pt-5"> 
-    
-    <div class="card shadow-sm border-0 mt-4">
-        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-            <h2 class="h4 mb-0 fw-bold text-primary">Liste des candidats</h2>
-            <a class="btn btn-primary btn-sm" asp-controller="Candidat" asp-action="Create">
-                + Ajouter un candidat
-            </a>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1" style="color:#1e293b;">
+                <i class="fas fa-user-tie me-2" style="color:#6366f1;"></i>
+                Liste des candidats
+            </h2>
+            <p class="text-muted mb-0" style="font-size:0.9rem;">
+                Gérez et validez les candidats
+            </p>
         </div>
-        
+        <a class="btn btn-primary px-4" asp-controller="Candidat" asp-action="Create"
+           style="border-radius:10px; font-weight:600;">
+            <i class="fas fa-plus me-2"></i>Ajouter un candidat
+        </a>
+    </div>
+
+    <div class="card border-0" style="border-radius:16px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
         <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th class="ps-4">Nom</th>
-                            <th>Prénom</th>
-                            <th>Programme</th>
-                            <th class="text-center">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model != null && Model.Any())
+            <table class="table mb-0" style="border-radius:16px; overflow:hidden;">
+                <thead>
+                    <tr style="background:#f8fafc;">
+                        <th class="px-4 py-3" style="font-size:0.78rem; text-transform:uppercase;
+                                   letter-spacing:0.6px; color:#64748b; font-weight:600; border:none;">
+                            Nom
+                        </th>
+                        <th class="px-4 py-3" style="font-size:0.78rem; text-transform:uppercase;
+                                   letter-spacing:0.6px; color:#64748b; font-weight:600; border:none;">
+                            Prénom
+                        </th>
+                        <th class="px-4 py-3" style="font-size:0.78rem; text-transform:uppercase;
+                                   letter-spacing:0.6px; color:#64748b; font-weight:600; border:none;">
+                            Programme
+                        </th>
+                        <th class="px-4 py-3 text-center" style="font-size:0.78rem; text-transform:uppercase;
+                                   letter-spacing:0.6px; color:#64748b; font-weight:600; border:none;">
+                            Status
+                        </th>
+                        <th class="px-4 py-3 text-center" style="font-size:0.78rem; text-transform:uppercase;
+                                   letter-spacing:0.6px; color:#64748b; font-weight:600; border:none;">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var c in Model)
                         {
-                            @foreach (var c in Model)
-                            {
-                                <tr>
-                                    <td class="ps-4">@c.NomCandidat</td>
-                                    <td>@c.PrenomCandidat</td>
-                                    <td><span class="badge bg-light text-dark border">@c.Programme</span></td>
-                                    <td class="text-center">
-                                        <span class="badge @(c.Validated ? "bg-success" : "bg-warning")">
-                                            @(c.Validated ? "Validé" : "En attente")
+                            <tr style="border-top:1px solid #f1f5f9;">
+                                <td class="px-4 py-3" style="border:none;">
+                                    <div class="d-flex align-items-center gap-2">
+                                        @if (!string.IsNullOrEmpty(c.Photo))
+                                        {
+                                            <img src="@c.Photo" alt="photo"
+                                                 style="width:36px; height:36px; border-radius:10px;
+                                                        object-fit:cover;"/>
+                                        }
+                                        else
+                                        {
+                                            <div class="rounded-3 d-flex align-items-center justify-content-center"
+                                                 style="width:36px; height:36px; background:#eff6ff; min-width:36px;">
+                                                <i class="fas fa-user" style="color:#3b82f6; font-size:0.85rem;"></i>
+                                            </div>
+                                        }
+                                        <span class="fw-semibold" style="color:#1e293b;">@c.NomCandidat</span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3" style="border:none; color:#475569;">
+                                    @c.PrenomCandidat
+                                </td>
+                                <td class="px-4 py-3" style="border:none;">
+                                    <span style="background:#f1f5f9; color:#475569; padding:4px 10px;
+                                                 border-radius:6px; font-size:0.82rem; max-width:300px;
+                                                 display:inline-block; white-space:nowrap;
+                                                 overflow:hidden; text-overflow:ellipsis;">
+                                        @c.Programme
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-center" style="border:none;">
+                                    @if (c.Validated)
+                                    {
+                                        <span class="badge px-3 py-2"
+                                              style="background:#f0fdf4; color:#166534;
+                                                     border-radius:999px; font-size:0.8rem;">
+                                            <i class="fas fa-check-circle me-1"></i>Validé
                                         </span>
-                                    </td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="4" class="text-center py-5 text-muted">
-                                    <i>Aucun candidat n'a été trouvé dans la base de données.</i>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge px-3 py-2"
+                                              style="background:#fffbeb; color:#b45309;
+                                                     border-radius:999px; font-size:0.8rem;">
+                                            <i class="fas fa-clock me-1"></i>En attente
+                                        </span>
+                                    }
+                                </td>
+                                <td class="px-4 py-3 text-center" style="border:none;">
+                                    @if (!c.Validated)
+                                    {
+                                        <a href="/Candidat/Validate/@c.Id"
+                                           class="btn btn-sm px-3"
+                                           style="background:#f0fdf4; color:#166534;
+                                                  border:1px solid #bbf7d0; border-radius:8px;
+                                                  font-weight:600; font-size:0.82rem;"
+                                           onclick="return confirm('Valider ce candidat ?')">
+                                            <i class="fas fa-check me-1"></i>Valider
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted" style="font-size:0.85rem;">
+                                            <i class="fas fa-lock me-1"></i>Validé
+                                        </span>
+                                    }
                                 </td>
                             </tr>
                         }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">
+                                <i class="fas fa-inbox mb-2" style="font-size:2rem;"></i>
+                                <br>Aucun candidat trouvé
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

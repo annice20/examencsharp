@@ -8,100 +8,86 @@ namespace examencsharp.Controllers
     {
         private readonly ApplicationDbContext _db;
         public VoteController(ApplicationDbContext db) => _db = db;
+public async Task<IActionResult> Index()
+{
+    var userEmail = HttpContext.Session.GetString("user");
+    if (string.IsNullOrEmpty(userEmail))
+        return RedirectToAction("Login", "Account");
 
-        public async Task<IActionResult> Index()
-        {
-            var userEmail = HttpContext.Session.GetString("user");
-            if (string.IsNullOrEmpty(userEmail))
-                return RedirectToAction("Login", "Account");
+    var election = await _db.Elections
+        .Include(e => e.Fokontany)
+        .FirstOrDefaultAsync(e => e.IsActive);
 
-            var utilisateur = await _db.Utilisateurs
-                .FirstOrDefaultAsync(u => u.Email == userEmail);
-            if (utilisateur == null) return RedirectToAction("Login", "Account");
+    if (election == null)
+        return View("AucuneElection");
 
-            var citoyen = await _db.Citoyens
-                .FirstOrDefaultAsync(c => c.UtilisateurId == utilisateur.Id);
-            if (citoyen == null) return View("NonEligible");
+    // ← Mitady citoyen aloha
+    var userId = HttpContext.Session.GetInt32("userId");
+    var citoyen = await _db.Citoyens
+        .FirstOrDefaultAsync(c => c.UtilisateurId == userId);
 
-            // CIN approuvée ?
-            var cinOk = await _db.CinRequests
-                .AnyAsync(r => r.CitoyenId == citoyen.Id && r.Status == "Approved");
-            if (!cinOk) return View("NonEligible");
+    if (citoyen == null)
+        return View("NonEligible");
 
-            // Élection active dans son fokontany
-            var election = await _db.Elections.Include(e => e.Fokontany)
-                .FirstOrDefaultAsync(e => e.FokontanyId == citoyen.FokontanyId && e.IsActive);
-            if (election == null) return View("AucuneElection");
+    // ← Mampiasa citoyen.Id marina
+    var dejaVote = await _db.Votes
+        .AnyAsync(v => v.CitoyenId == citoyen.Id && v.ElectionId == election.Id);
 
-            // Déjà voté ?
-            var dejaVote = await _db.Votes
-                .AnyAsync(v => v.CitoyenId == citoyen.Id && v.ElectionId == election.Id);
-            if (dejaVote) return View("DejaVote");
+    if (dejaVote)
+        return View("DejaVote");
 
-            var candidats = await _db.Candidats
-                .Where(c => c.ElectionId == election.Id && c.Validated)
-                .ToListAsync();
+    var candidats = await _db.Candidats
+        .Where(c => c.ElectionId == election.Id)
+        .ToListAsync();
 
-            ViewBag.Election = election;
-            ViewBag.Citoyen = citoyen;
-            return View(candidats);
-        }
+    ViewBag.Election = election;
+    return View(candidats);
+}
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Voter(int candidatId, int electionId)
-        {
-            var userEmail = HttpContext.Session.GetString("user");
-            if (string.IsNullOrEmpty(userEmail))
-                return RedirectToAction("Login", "Account");
+       [HttpPost, ValidateAntiForgeryToken]
+public async Task<IActionResult> Voter(int candidatId, int electionId)
+{
+    var userEmail = HttpContext.Session.GetString("user");
+    if (string.IsNullOrEmpty(userEmail))
+        return RedirectToAction("Login", "Account");
 
-            var utilisateur = await _db.Utilisateurs
-                .FirstOrDefaultAsync(u => u.Email == userEmail);
-            var citoyen = await _db.Citoyens
-                .FirstOrDefaultAsync(c => c.UtilisateurId == utilisateur!.Id);
-            if (citoyen == null) return Forbid();
+    var userId = HttpContext.Session.GetInt32("userId");
+    if (userId == null)
+        return RedirectToAction("Login", "Account");
 
-            // Anti double-vote
-            var dejaVote = await _db.Votes
-                .AnyAsync(v => v.CitoyenId == citoyen.Id && v.ElectionId == electionId);
-            if (dejaVote) return View("DejaVote");
+    // Mitady citoyen linked amin'ny utilisateur
+    var citoyen = await _db.Citoyens
+        .FirstOrDefaultAsync(c => c.UtilisateurId == userId);
 
-            var qrCode = Guid.NewGuid().ToString();
+    // Raha tsy misy citoyen → mamorona vote amin'ny utilisateur.Id mivantana
+    // amin'ny alalan'ny foreign key disable — fa tsara kokoa ny mitady citoyen
+    int citoyenId;
+    if (citoyen != null)
+        citoyenId = citoyen.Id;
+    else
+    {
+        // Tsy misy citoyen linked — tsy afaka mifidy
+        ViewBag.Error = "Votre compte n'est pas lié à un citoyen. Contactez l'administrateur.";
+        return RedirectToAction("Index");
+    }
 
-            using var transaction = await _db.Database.BeginTransactionAsync();
-            try
-            {
-                _db.Votes.Add(new Vote
-                {
-                    CitoyenId  = citoyen.Id,
-                    CandidatId = candidatId,
-                    ElectionId = electionId,
-                    VoteDate   = DateTime.UtcNow,
-                    QRCode     = qrCode
-                });
-                _db.VoteLogs.Add(new VoteLog
-                {
-                    CitoyenId  = citoyen.Id,
-                    ElectionId = electionId,
-                    Action     = "VOTE",
-                    LogDate    = DateTime.UtcNow
-                });
-                await _db.SaveChangesAsync();
-                await transaction.CommitAsync();
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
+    // Anti double-vote
+    var dejaVote = await _db.Votes
+        .AnyAsync(v => v.CitoyenId == citoyenId && v.ElectionId == electionId);
+    if (dejaVote)
+        return View("DejaVote");
 
-            TempData["QRCode"] = qrCode;
-            return RedirectToAction("Confirmation");
-        }
+    _db.Votes.Add(new Vote
+    {
+        CitoyenId  = citoyenId,  // ← citoyen.Id marina
+        CandidatId = candidatId,
+        ElectionId = electionId,
+        VoteDate   = DateTime.UtcNow,
+        QRCode     = Guid.NewGuid().ToString()
+    });
 
-        public IActionResult Confirmation()
-        {
-            ViewBag.QRCode = TempData["QRCode"];
-            return View();
-        }
+    await _db.SaveChangesAsync();
+    return RedirectToAction("Confirmation");
+}
     }
 }

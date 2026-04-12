@@ -4,42 +4,154 @@
     var election = ViewBag.Election as examencsharp.Models.Election;
 }
 
-<div class="p-3 mb-4 text-white rounded"
-     style="background:linear-gradient(135deg,#0f1114,#1a1a2e)">
+<style>
+    .candidat-card {
+        border: 2px solid #e2e8f0;
+        border-radius: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        background: white;
+        position: relative;
+    }
+    .candidat-card:hover {
+        border-color: #3b82f6;
+        box-shadow: 0 4px 20px rgba(59,130,246,0.15);
+        transform: translateY(-2px);
+    }
+    .candidat-card.selected {
+        border-color: #1e40af;
+        background: #eff6ff;
+        box-shadow: 0 4px 20px rgba(30,64,175,0.2);
+    }
+    .check-circle {
+        width: 28px; height: 28px;
+        border-radius: 50%;
+        border: 2px solid #cbd5e1;
+        display: flex; align-items: center; justify-content: center;
+        transition: all 0.2s;
+        background: white;
+        position: absolute;
+        top: 14px; right: 14px;
+    }
+    .candidat-card.selected .check-circle {
+        background: #1e40af;
+        border-color: #1e40af;
+    }
+    .check-circle i {
+        color: white;
+        font-size: 0.75rem;
+        display: none;
+    }
+    .candidat-card.selected .check-circle i {
+        display: block;
+    }
+    .avatar-circle {
+        width: 70px; height: 70px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        display: flex; align-items: center; justify-content: center;
+        margin: 0 auto 12px;
+        font-size: 2rem;
+    }
+    .btn-confirmer {
+        background: linear-gradient(135deg, #1e40af, #3b82f6);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 40px;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+    .btn-confirmer:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(59,130,246,0.4);
+        color: white;
+    }
+    .btn-confirmer:disabled {
+        background: #cbd5e1;
+        cursor: not-allowed;
+    }
+    .instruction-box {
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 10px;
+        padding: 12px 18px;
+        color: #1e40af;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+</style>
+
+<!-- En-tête élection -->
+<div class="p-4 mb-4 text-white rounded-3"
+     style="background:linear-gradient(135deg,#0f172a,#1e40af)">
     <span class="badge bg-danger mb-2">● Vote en cours</span>
     <h3 class="fw-bold mb-1">@election?.TitreElection</h3>
-    <small class="text-white-50">
-         @election?.DateElection.ToString("dd/MM/yyyy")
+    <small class="opacity-75">
+        <i class="fas fa-calendar me-1"></i>@election?.DateElection.ToString("dd/MM/yyyy")
         &nbsp;|&nbsp;
-        Fokontany @election?.Fokontany?.NomFokontany
+        <i class="fas fa-map-marker-alt me-1"></i>Fokontany @election?.Fokontany?.NomFokontany
     </small>
+</div>
+
+<!-- Instruction -->
+<div class="instruction-box mb-4">
+    <i class="fas fa-info-circle me-2"></i>
+    Cliquez sur le candidat de votre choix puis confirmez votre vote. Vous ne pouvez voter qu'<strong>une seule fois</strong>.
 </div>
 
 <form asp-action="Voter" method="post">
     @Html.AntiForgeryToken()
-    <input type="hidden" name="electionId" value="@election?.Id"/>
+    <input type="hidden" name="electionId" value="@election?.Id" />
+
     <div class="row g-3 mb-4">
         @foreach (var c in Model)
         {
-            <div class="col-md-4">
-                <div class="card h-100 border-2 candidate-card"
-                     style="cursor:pointer" onclick="selectCandidat(@c.Id, this)">
-                    <div class="card-body text-center p-4">
-                        <div style="font-size:4rem;margin-bottom:12px">👤</div>
-                        <h5 class="fw-bold">@c.NomCandidat @c.PrenomCandidat</h5>
-                        <p class="text-muted small">@c.Programme</p>
-                        <input class="form-check-input" type="radio"
-                               name="candidatId" id="cand_@c.Id"
-                               value="@c.Id" required style="display:none"/>
+            <div class="col-md-4 col-sm-6">
+                <div class="candidat-card p-4 h-100"
+                     onclick="selectCandidat(@c.Id, this)">
+
+                    <!-- Cercle cocher -->
+                    <div class="check-circle">
+                        <i class="fas fa-check"></i>
                     </div>
+
+                    <!-- Avatar -->
+                    <div class="avatar-circle">
+                        @if (!string.IsNullOrEmpty(c.Photo))
+                        {
+                            <img src="/photos/@c.Photo" alt="photo"
+                                 style="width:70px;height:70px;border-radius:50%;object-fit:cover;" />
+                        }
+                        else
+                        {
+                            <span>👤</span>
+                        }
+                    </div>
+
+                    <!-- Infos candidat -->
+                    <div class="text-center">
+                        <h5 class="fw-bold mb-1" style="color:#1e293b;">
+                            @c.NomCandidat @c.PrenomCandidat
+                        </h5>
+                        <p class="text-muted small mb-0">@c.Programme</p>
+                    </div>
+
+                    <!-- Radio caché -->
+                    <input type="radio" name="candidatId"
+                           id="cand_@c.Id" value="@c.Id"
+                           style="display:none;" required />
                 </div>
             </div>
         }
     </div>
+
+    <!-- Bouton confirmer -->
     <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-success btn-lg px-5"
+        <button type="submit" class="btn btn-confirmer"
                 id="btnVoter" disabled>
-            Confirmer mon vote
+            <i class="fas fa-vote-yea me-2"></i>Confirmer mon vote
         </button>
     </div>
 </form>
@@ -47,13 +159,15 @@
 @section Scripts {
 <script>
 function selectCandidat(id, el) {
-    document.querySelectorAll('.candidate-card').forEach(c => {
-        c.classList.remove('border-success');
-        c.style.boxShadow = '';
+    // Reset tous les cards
+    document.querySelectorAll('.candidat-card').forEach(c => {
+        c.classList.remove('selected');
     });
-    el.classList.add('border-success');
-    el.style.boxShadow = '0 0 0 4px rgba(26,122,74,0.15)';
+    // Sélectionner le card cliqué
+    el.classList.add('selected');
+    // Cocher le radio
     document.getElementById('cand_' + id).checked = true;
+    // Activer le bouton
     document.getElementById('btnVoter').disabled = false;
 }
 </script>

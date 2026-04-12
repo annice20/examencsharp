@@ -15,8 +15,6 @@
             margin: 0;
             padding-top: 70px;
         }
-
-        /* ===== NAVBAR ===== */
         .navbar-main {
             background: #ffffff;
             border-bottom: 2px solid #e2e8f0;
@@ -37,7 +35,6 @@
             letter-spacing: -0.5px;
         }
         .navbar-brand-text span { color: #3b82f6; }
-
         .nav-link-main {
             color: #475569 !important;
             font-weight: 500;
@@ -48,10 +45,6 @@
             text-decoration: none;
         }
         .nav-link-main:hover {
-            background: #eff6ff;
-            color: #1e40af !important;
-        }
-        .nav-link-main.active {
             background: #eff6ff;
             color: #1e40af !important;
         }
@@ -100,9 +93,7 @@
             text-decoration: none;
             transition: all 0.2s;
         }
-        .btn-deconnexion:hover {
-            background: #fecaca;
-        }
+        .btn-deconnexion:hover { background: #fecaca; }
         .user-badge {
             background: #f1f5f9;
             color: #475569;
@@ -111,22 +102,16 @@
             font-size: 0.85rem;
             font-weight: 500;
         }
-
-        /* ===== PAGE CONTENT ===== */
         .page-wrapper {
             min-height: calc(100vh - 70px);
             padding: 30px 0;
         }
-
-        /* ===== CARDS ===== */
         .card-main {
             background: white;
             border-radius: 16px;
             border: 1px solid #e2e8f0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
-
-        /* ===== ALERTS ===== */
         .alert-success-main {
             background: #f0fdf4;
             border: 1px solid #bbf7d0;
@@ -153,62 +138,73 @@
 
                         @if (Context.Session.GetString("user") != null)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link-main" href="/Dashboard">
-                                    <i class="fas fa-chart-pie me-1"></i>Dashboard
-                                </a>
-                            </li>
+                            @if (Context.Session.GetString("role") == "Admin")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link-main" href="/Dashboard">
+                                        <i class="fas fa-chart-pie me-1"></i>Dashboard
+                                    </a>
+                                </li>
 
-                            <li class="nav-item dropdown">
-                                <a class="nav-link-main dropdown-toggle" href="#"
-                                   data-bs-toggle="dropdown">
-                                    <i class="fas fa-user-tie me-1"></i>Candidats
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-main">
-                                    <li><a class="dropdown-item dropdown-item-main" href="/Candidat/Index">
-                                        <i class="fas fa-list me-2 text-primary"></i>Liste des candidats
-                                    </a></li>
-                                    <li><a class="dropdown-item dropdown-item-main" href="/Candidat/Create">
-                                        <i class="fas fa-plus me-2 text-success"></i>Ajouter un candidat
-                                    </a></li>
-                                </ul>
-                            </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link-main dropdown-toggle" href="#"
+                                       data-bs-toggle="dropdown">
+                                        <i class="fas fa-user-tie me-1"></i>Candidats
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-main">
+                                        <li><a class="dropdown-item dropdown-item-main" href="/Candidat/Index">
+                                            <i class="fas fa-list me-2 text-primary"></i>Liste des candidats
+                                        </a></li>
+                                        <li><a class="dropdown-item dropdown-item-main" href="/Candidat/Create">
+                                            <i class="fas fa-plus me-2 text-success"></i>Ajouter un candidat
+                                        </a></li>
+                                    </ul>
+                                </li>
 
-                            <li class="nav-item dropdown">
-                                <a class="nav-link-main dropdown-toggle" href="#"
-                                   data-bs-toggle="dropdown">
-                                    <i class="fas fa-users me-1"></i>Citoyens
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-main">
-                                    <li><a class="dropdown-item dropdown-item-main" href="/Citoyen/Index">
-                                        <i class="fas fa-list me-2 text-primary"></i>Liste des citoyens
-                                    </a></li>
-                                    <li><a class="dropdown-item dropdown-item-main" href="/Citoyen/Create">
-                                        <i class="fas fa-plus me-2 text-success"></i>Ajouter un citoyen
-                                    </a></li>
-                                </ul>
-                            </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link-main dropdown-toggle" href="#"
+                                       data-bs-toggle="dropdown">
+                                        <i class="fas fa-users me-1"></i>Citoyens
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-main">
+                                        <li><a class="dropdown-item dropdown-item-main" href="/Citoyen/Index">
+                                            <i class="fas fa-list me-2 text-primary"></i>Liste des citoyens
+                                        </a></li>
+                                        <li><a class="dropdown-item dropdown-item-main" href="/Citoyen/Create">
+                                            <i class="fas fa-plus me-2 text-success"></i>Ajouter un citoyen
+                                        </a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item dropdown-item-main" href="/CinRequest/Index">
+                                            <i class="fas fa-id-card me-2 text-warning"></i>Gestion CIN
+                                        </a></li>
+                                    </ul>
+                                </li>
 
-                            <li class="nav-item dropdown">
-                                <a class="nav-link-main dropdown-toggle" href="#"
-                                   data-bs-toggle="dropdown">
-                                    <i class="fas fa-landmark me-1"></i>Élections
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-main">
-                                    <li><a class="dropdown-item dropdown-item-main" href="/Election/Index">
-                                        <i class="fas fa-list me-2 text-primary"></i>Liste des élections
-                                    </a></li>
-                                    <li><a class="dropdown-item dropdown-item-main" href="/Election/Create">
-                                        <i class="fas fa-plus me-2 text-success"></i>Créer une élection
-                                    </a></li>
-                                </ul>
-                            </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link-main dropdown-toggle" href="#"
+                                       data-bs-toggle="dropdown">
+                                        <i class="fas fa-landmark me-1"></i>Élections
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-main">
+                                        <li><a class="dropdown-item dropdown-item-main" href="/Election/Index">
+                                            <i class="fas fa-list me-2 text-primary"></i>Liste des élections
+                                        </a></li>
+                                        <li><a class="dropdown-item dropdown-item-main" href="/Election/Create">
+                                            <i class="fas fa-plus me-2 text-success"></i>Créer une élection
+                                        </a></li>
+                                    </ul>
+                                </li>
+                            }
 
-                            <li class="nav-item">
-                                <a class="btn-voter" href="/Vote">
-                                    <i class="fas fa-vote-yea me-1"></i>Voter
-                                </a>
-                            </li>
+                            @* Voter — Utilisateur ihany *@
+                            @if (Context.Session.GetString("role") == "Utilisateur")
+                            {
+                                <li class="nav-item">
+                                    <a class="btn-voter" href="/Vote">
+                                        <i class="fas fa-vote-yea me-1"></i>Voter
+                                    </a>
+                                </li>
+                            }
 
                             <li class="nav-item">
                                 <span class="user-badge">
@@ -231,6 +227,7 @@
                                 </a>
                             </li>
                         }
+
                     </ul>
                 </div>
             </div>
@@ -238,10 +235,11 @@
     </header>
 
     <div class="page-wrapper">
-        @RenderBody()
+        <div class="container">
+            @RenderBody()
+        </div>
     </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

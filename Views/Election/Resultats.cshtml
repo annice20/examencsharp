@@ -2,98 +2,104 @@
 @{
     ViewData["Title"] = "Résultats";
     var election = ViewBag.Election as examencsharp.Models.Election;
-    var resultats = ViewBag.Resultats as List<dynamic>;
-    int totalVotes = 0;
-    if (resultats != null)
-    {
-        foreach (var r in resultats) totalVotes += (int)r.Total;
-    }
+    int totalVotes = (int)(ViewBag.TotalVotes ?? 0);
 }
 
-<div class="container mt-4">
-    <div class="card shadow mb-4">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h4 class="mb-0"><i class="bi bi-bar-chart"></i> Résultats — @election?.TitreElection</h4>
-            <span class="badge bg-light text-dark fs-6">@totalVotes votes au total</span>
+<div class="container py-4">
+    <div class="card border-0 mb-4"
+         style="border-radius:16px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+        <div class="card-header border-0 d-flex justify-content-between align-items-center p-4"
+             style="background:linear-gradient(135deg,#1e40af,#3b82f6);
+                    border-radius:16px 16px 0 0;">
+            <div class="d-flex align-items-center gap-2">
+                <i class="fas fa-trophy text-white" style="font-size:1.2rem;"></i>
+                <span class="fw-bold text-white" style="font-size:1.1rem;">
+                    Résultats — @election?.TitreElection
+                </span>
+            </div>
+            <span class="badge px-3 py-2"
+                  style="background:rgba(255,255,255,0.2); color:white;
+                         border-radius:999px; font-size:0.85rem;">
+                @totalVotes vote(s) au total
+            </span>
         </div>
-        <div class="card-body">
 
-            @if (!Model.Any())
+        <div class="card-body p-4">
+            @if (ViewBag.Resultats != null)
             {
-                <div class="alert alert-info">Aucun candidat pour cette élection.</div>
-            }
-            else
-            {
-                <div class="row">
-                    @foreach (var candidat in Model)
-                    {
-                        int votes = 0;
-                        if (resultats != null)
-                        {
-                            foreach (var r in resultats)
-                            {
-                                if ((int)r.CandidatId == candidat.Id)
-                                {
-                                    votes = (int)r.Total;
-                                    break;
-                                }
-                            }
-                        }
-                        double pct = totalVotes > 0 ? Math.Round((double)votes / totalVotes * 100, 1) : 0;
+                @foreach (var r in ViewBag.Resultats)
+                {
+                    int votes = (int)r.Total;
+                    double pct = totalVotes > 0
+                        ? Math.Round((double)votes / totalVotes * 100, 1) : 0;
 
-                        <div class="col-md-6 mb-3">
-                            <div class="card border-0 shadow-sm">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <h5 class="mb-0">@candidat.NomCandidat @candidat.PrenomCandidat</h5>
-                                        <span class="badge bg-primary fs-6">@votes votes</span>
-                                    </div>
-                                    <div class="progress" style="height: 25px;">
-                                        <div class="progress-bar bg-success" role="progressbar"
-                                             style="width: @pct%"
-                                             aria-valuenow="@pct" aria-valuemin="0" aria-valuemax="100">
-                                            @pct%
-                                        </div>
-                                    </div>
-                                    <small class="text-muted">@pct% des votes</small>
+                    <div class="mb-4 p-3"
+                         style="border:1px solid #e2e8f0; border-radius:12px;">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="rounded-circle d-flex align-items-center
+                                            justify-content-center"
+                                     style="width:38px; height:38px; background:#eff6ff;
+                                            min-width:38px;">
+                                    <i class="fas fa-user" style="color:#3b82f6;"></i>
                                 </div>
+                                <span class="fw-semibold" style="color:#1e293b;">
+                                    @r.NomCandidat @r.PrenomCandidat
+                                </span>
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="badge px-3 py-2"
+                                      style="background:#eff6ff; color:#1e40af;
+                                             border-radius:999px;">
+                                    @votes votes
+                                </span>
+                                <span class="fw-bold" style="color:#1e40af; min-width:50px;
+                                             text-align:right;">
+                                    @pct%
+                                </span>
                             </div>
                         </div>
-                    }
-                </div>
-
-                int maxVotes = 0;
-                examencsharp.Models.Candidat? gagnant = null;
-                if (resultats != null)
-                {
-                    foreach (var r in resultats)
-                    {
-                        if ((int)r.Total > maxVotes)
-                        {
-                            maxVotes = (int)r.Total;
-                            foreach (var c in Model)
-                            {
-                                if (c.Id == (int)r.CandidatId)
-                                {
-                                    gagnant = c;
-                                    break;
-                                }
-                            }
-                        }
-                    }
+                        <div class="progress" style="height:12px; border-radius:999px;
+                                                     background:#f1f5f9;">
+                            <div class="progress-bar"
+                                 style="width:@pct%; border-radius:999px;
+                                        background:linear-gradient(90deg,#1e40af,#3b82f6);
+                                        transition: width 1s ease;">
+                            </div>
+                        </div>
+                        <small class="text-muted mt-1 d-block">@pct% des votes</small>
+                    </div>
                 }
 
-                if (gagnant != null)
+                @* Gagnant *@
+                @if (totalVotes > 0)
                 {
-                    <div class="alert alert-success mt-3 text-center fs-5">
-                        🏆 <strong>Gagnant : @gagnant.NomCandidat @gagnant.PrenomCandidat</strong>
-                        avec @maxVotes votes
+                    var gagnant = ViewBag.Resultats[0];
+                    <div class="alert border-0 text-center mt-3"
+                         style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);
+                                border-radius:12px; padding:20px;">
+                        <i class="fas fa-trophy" style="color:#f59e0b; font-size:2rem;"></i>
+                        <h5 class="fw-bold mt-2 mb-1" style="color:#166534;">
+                             Gagnant : @gagnant.NomCandidat @gagnant.PrenomCandidat
+                        </h5>
+                        <p class="text-muted mb-0">
+                            @gagnant.Total vote(s) —
+                            @(totalVotes > 0 ? Math.Round((double)gagnant.Total / totalVotes * 100, 1) : 0)%
+                        </p>
                     </div>
                 }
             }
+            else
+            {
+                <div class="text-center py-5 text-muted">
+                    <i class="fas fa-inbox mb-3" style="font-size:3rem;"></i>
+                    <h5>Aucun résultat disponible</h5>
+                </div>
+            }
 
-            <a asp-action="Index" class="btn btn-secondary mt-3">
-                <i class="bi bi-arrow-left"></i> Retour aux élections
+            <a asp-action="Index" class="btn btn-secondary mt-3"
+               style="border-radius:10px;">
+                <i class="fas fa-arrow-left me-2"></i>Retour aux élections
             </a>
         </div>
     </div>

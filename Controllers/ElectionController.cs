@@ -55,19 +55,31 @@ namespace examencsharp.Controllers
         public async Task<IActionResult> Resultats(int id)
         {
             if (!EstConnecte()) return RedirectToAction("Login", "Account");
+
             var election = await _db.Elections.Include(e => e.Fokontany)
                 .FirstOrDefaultAsync(e => e.Id == id);
             if (election == null) return NotFound();
 
-            var candidats = await _db.Candidats.Where(c => c.ElectionId == id).ToListAsync();
-            var resultats = await _db.Votes
-                .Where(v => v.ElectionId == id)
-                .GroupBy(v => v.CandidatId)
-                .Select(g => new { CandidatId = g.Key, Total = g.Count() })
+            var candidats = await _db.Candidats
+                .Where(c => c.ElectionId == id)
                 .ToListAsync();
 
+            var votes = await _db.Votes
+                .Where(v => v.ElectionId == id)
+                .ToListAsync();
+
+            var resultats = candidats.Select(c => new
+            {
+                CandidatId = c.Id,
+                NomCandidat = c.NomCandidat,
+                PrenomCandidat = c.PrenomCandidat,
+                Total = votes.Count(v => v.CandidatId == c.Id)
+            }).OrderByDescending(r => r.Total).ToList();
+
             ViewBag.Election = election;
+            ViewBag.TotalVotes = votes.Count;
             ViewBag.Resultats = resultats;
+
             return View(candidats);
         }
     }

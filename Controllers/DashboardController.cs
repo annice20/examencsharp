@@ -11,9 +11,8 @@ namespace examencsharp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // Vérifier session
-            //if (string.IsNullOrEmpty(HttpContext.Session.GetString("user")))
-                //return RedirectToAction("Login", "Account");
+            if (HttpContext.Session.GetString("role") != "Admin")
+                return RedirectToAction("Login", "Account");
 
             var dashboard = new VDashboard
             {
@@ -26,24 +25,59 @@ namespace examencsharp.Controllers
             var electionActive = await _db.Elections.FirstOrDefaultAsync(e => e.IsActive);
             if (electionActive != null)
             {
-                var resultats = await _db.Votes
-                    .Where(v => v.ElectionId == electionActive.Id)
-                    .Include(v => v.Candidat)
-                    .GroupBy(v => new { v.Candidat!.NomCandidat, v.Candidat.PrenomCandidat })
-                    .Select(g => new VResult
-                    {
-                        NomCandidat  = g.Key.NomCandidat,
-                        PrenomCandidat   = g.Key.PrenomCandidat,
-                        total_votes = g.Count()
-                    })
-                    .OrderByDescending(r => r.total_votes)
+                var candidats = await _db.Candidats
+                    .Where(c => c.ElectionId == electionActive.Id)
                     .ToListAsync();
 
-                ViewBag.Resultats = resultats;
+                var resultats = new List<ResultatAvecVotants>();
+
+                foreach (var candidat in candidats)
+                {
+                    var votants = await _db.Votes
+                        .Where(v => v.CandidatId == candidat.Id && v.ElectionId == electionActive.Id)
+                        .Select(v => new VotantInfo
+                        {
+                            NomPrenom = _db.Citoyens
+                                .Where(c => c.UtilisateurId == v.CitoyenId)
+                                .Select(c => c.NomCitoyen + " " + c.PrenomCitoyen)
+                                .FirstOrDefault() ??
+                                _db.Utilisateurs
+                                .Where(u => u.Id == v.CitoyenId)
+                                .Select(u => u.Email)
+                                .FirstOrDefault() ?? "Utilisateur #" + v.CitoyenId,
+                            DateVote = v.VoteDate
+                        })
+                        .ToListAsync();
+
+                    resultats.Add(new ResultatAvecVotants
+                    {
+                        NomCandidat    = candidat.NomCandidat,
+                        PrenomCandidat = candidat.PrenomCandidat,
+                        TotalVotes     = votants.Count,
+                        Votants        = votants
+                    });
+                }
+
+                ViewBag.Resultats     = resultats.OrderByDescending(r => r.TotalVotes).ToList();
                 ViewBag.ElectionTitre = electionActive.TitreElection;
+                ViewBag.TotalVotes    = resultats.Sum(r => r.TotalVotes);
             }
 
             return View(dashboard);
         }
+    }
+
+    public class ResultatAvecVotants
+    {
+        public string NomCandidat    { get; set; } = "";
+        public string PrenomCandidat { get; set; } = "";
+        public int    TotalVotes     { get; set; }
+        public List<VotantInfo> Votants { get; set; } = new();
+    }
+
+    public class VotantInfo
+    {
+        public string   NomPrenom { get; set; } = "";
+        public DateTime DateVote  { get; set; }
     }
 }

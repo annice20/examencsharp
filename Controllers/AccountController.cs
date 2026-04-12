@@ -17,13 +17,8 @@ namespace examencsharp.Controllers
             _emailService = emailService;
         }
 
-        // LOGIN GET
-        public IActionResult Login()
-        {
-            return View();
-        }
+        public IActionResult Login() => View();
 
-        // LOGIN POST
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
@@ -36,33 +31,24 @@ namespace examencsharp.Controllers
 
             var hasher = new PasswordHasher<Utilisateur>();
             var result = hasher.VerifyHashedPassword(user, user.MotDePasse, password);
-
             if (result == PasswordVerificationResult.Failed)
             {
                 ViewBag.Error = "Email ou mot de passe incorrect";
                 return View();
             }
 
-            // Génération du code 2FA
             string code = new Random().Next(100000, 999999).ToString();
             user.Code2FA = code;
             user.Expiration2FA = DateTime.Now.AddMinutes(5);
             _context.SaveChanges();
 
             _emailService.EnvoyerCode(user.Email, code);
-
             HttpContext.Session.SetInt32("UserId2FA", user.Id);
-
             return RedirectToAction("Verify2FA");
         }
 
-        // VERIFY 2FA GET
-        public IActionResult Verify2FA()
-        {
-            return View();
-        }
+        public IActionResult Verify2FA() => View();
 
-        // VERIFY 2FA POST
         [HttpPost]
         public IActionResult Verify2FA(string code)
         {
@@ -70,79 +56,59 @@ namespace examencsharp.Controllers
             if (userId == null) return RedirectToAction("Login");
 
             var user = _context.Utilisateurs.Find(userId);
+            if (user == null) return RedirectToAction("Login");
 
             if (user.Code2FA == code && user.Expiration2FA > DateTime.Now)
             {
                 HttpContext.Session.Remove("UserId2FA");
                 HttpContext.Session.SetString("user", user.Email);
+                HttpContext.Session.SetString("role", user.Role);
+                HttpContext.Session.SetInt32("userId", user.Id);
 
-                if(user.Role == "Admin")
-                {
+                if (user.Role == "Admin")
                     return RedirectToAction("Index", "Dashboard");
-                }
-                if(user.Role == "Citoyen")
-                {
-                    return RedirectToAction("Index", "Home");
-                }
+
+                // "Utilisateur" na role hafa rehetra → mankany Vote mivantana
+                return RedirectToAction("Index", "Vote");
             }
 
             ViewBag.Error = "Code invalide ou expiré";
             return View();
         }
 
-        // LOGOUT
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
 
-        // REGISTER GET
-        public IActionResult Register()
-        {
-            return View();
-        }
+        public IActionResult Register() => View();
 
-        // REGISTER POST
         [HttpPost]
         public IActionResult Register(string email, string password, string confirmPassword, string role)
         {
-            // Vérification des champs vides
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(role))
             {
                 ViewBag.Error = "Tous les champs sont obligatoires.";
                 return View();
             }
-
-            // Vérification confirmation mot de passe
             if (password != confirmPassword)
             {
                 ViewBag.Error = "Les mots de passe ne correspondent pas.";
                 return View();
             }
-
-            // Vérification email déjà existant
             if (_context.Utilisateurs.Any(u => u.Email == email))
             {
                 ViewBag.Error = "Cet email est déjà utilisé.";
                 return View();
             }
-
-            // Vérification que le rôle est valide (sécurité)
             if (role != "Admin" && role != "Utilisateur")
             {
                 ViewBag.Error = "Rôle invalide.";
                 return View();
             }
 
-            // Création de l'utilisateur
-            var user = new Utilisateur
-            {
-                Email = email,
-                Role = role
-            };
-
-            // Hashage du mot de passe
+            var user = new Utilisateur { Email = email, Role = role };
             var hasher = new PasswordHasher<Utilisateur>();
             user.MotDePasse = hasher.HashPassword(user, password);
 
