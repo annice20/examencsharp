@@ -11,6 +11,15 @@ namespace examencsharp.Controllers
 
         public async Task<IActionResult> Index()
         {
+            // ✅ Non connecté → Login
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("user")))
+                return RedirectToAction("Login", "Account");
+
+            // ✅ Utilisateur → redirigé vers son profil citoyen
+            if (HttpContext.Session.GetString("role") == "Utilisateur")
+                return RedirectToAction("Index", "Citoyen");
+
+            // ✅ Pas Admin → Login
             if (HttpContext.Session.GetString("role") != "Admin")
                 return RedirectToAction("Login", "Account");
 
@@ -30,7 +39,6 @@ namespace examencsharp.Controllers
                     .ToListAsync();
 
                 var resultats = new List<ResultatAvecVotants>();
-
                 foreach (var candidat in candidats)
                 {
                     var votants = await _db.Votes

@@ -155,14 +155,14 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-main">
                                         <li>
-                                            <a class="dropdown-item dropdown-item-main" 
+                                            <a class="dropdown-item dropdown-item-main"
                                                href="/Candidat/Index">
                                                 <i class="fas fa-list me-2 text-primary"></i>
                                                 Liste des candidats
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item dropdown-item-main" 
+                                            <a class="dropdown-item dropdown-item-main"
                                                href="/Candidat/Create">
                                                 <i class="fas fa-plus me-2 text-success"></i>
                                                 Ajouter un candidat
@@ -178,15 +178,22 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-main">
                                         <li>
-                                            <a class="dropdown-item dropdown-item-main" 
+                                            <a class="dropdown-item dropdown-item-main"
                                                href="/Citoyen/Index">
                                                 <i class="fas fa-list me-2 text-primary"></i>
                                                 Liste des citoyens
                                             </a>
                                         </li>
+                                        <li>
+                                            <a class="dropdown-item dropdown-item-main"
+                                               href="/Citoyen/Create">
+                                                <i class="fas fa-plus me-2 text-success"></i>
+                                                Ajouter un citoyen
+                                            </a>
+                                        </li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
-                                            <a class="dropdown-item dropdown-item-main" 
+                                            <a class="dropdown-item dropdown-item-main"
                                                href="/CinRequest/Index">
                                                 <i class="fas fa-id-card me-2 text-warning"></i>
                                                 Gestion CIN
@@ -202,14 +209,14 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-main">
                                         <li>
-                                            <a class="dropdown-item dropdown-item-main" 
+                                            <a class="dropdown-item dropdown-item-main"
                                                href="/Election/Index">
                                                 <i class="fas fa-list me-2 text-primary"></i>
                                                 Liste des élections
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item dropdown-item-main" 
+                                            <a class="dropdown-item dropdown-item-main"
                                                href="/Election/Create">
                                                 <i class="fas fa-plus me-2 text-success"></i>
                                                 Créer une élection
@@ -217,28 +224,34 @@
                                         </li>
                                     </ul>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link-main" href="/Vote/Scan">
+                                        <i class="fas fa-qrcode me-1"></i>Scanner QR
+                                    </a>
+                                </li>
                             }
 
-                            @* CITOYEN *@
-                            @if (Context.Session.GetString("role") == "Citoyen")
+                            @* ✅ UTILISATEUR — rôle "Utilisateur" en base *@
+                            @if (Context.Session.GetString("role") == "Utilisateur")
                             {
                                 <li class="nav-item dropdown">
                                     <a class="nav-link-main dropdown-toggle" href="#"
                                        data-bs-toggle="dropdown">
-                                        <i class="fas fa-users me-1"></i>Mon profil
+                                        <i class="fas fa-user me-1"></i>Mon profil
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-main">
                                         <li>
-                                            <a class="dropdown-item dropdown-item-main" 
+                                            <a class="dropdown-item dropdown-item-main"
                                                href="/Citoyen/Create">
                                                 <i class="fas fa-plus me-2 text-success"></i>
                                                 Créer mon profil
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item dropdown-item-main" 
+                                            <a class="dropdown-item dropdown-item-main"
                                                href="/Citoyen/Index">
-                                                <i class="fas fa-id-card me-2 text-primary"></i>
+                                                <i class="fas fa-qrcode me-2 text-primary"></i>
                                                 Voir mon QR code
                                             </a>
                                         </li>
@@ -252,14 +265,13 @@
                                 </li>
                             }
 
-                            @* Infos utilisateur + déconnexion — tous les rôles *@
+                            @* ✅ Badge + déconnexion — tous les rôles *@
                             <li class="nav-item">
                                 <span class="user-badge">
                                     <i class="fas fa-user-circle me-1 text-primary"></i>
                                     @Context.Session.GetString("user")
-                                    <span class="ms-1 badge 
-                                        @(Context.Session.GetString("role") == "Admin" 
-                                            ? "bg-danger" : "bg-success")">
+                                    <span class="ms-1 badge @(Context.Session.GetString("role") == "Admin"
+                                        ? "bg-danger" : "bg-success")">
                                         @Context.Session.GetString("role")
                                     </span>
                                 </span>

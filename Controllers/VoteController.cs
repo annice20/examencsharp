@@ -59,7 +59,7 @@ namespace examencsharp.Controllers
             if (citoyen == null) return NotFound();
 
             // Seul le citoyen concerné peut générer son QR
-            if (role == "Citoyen" && citoyen.UtilisateurId != userId)
+            if (role == "Utilisateur" && citoyen.UtilisateurId != userId)
                 return Forbid();
 
             // Admin ne peut pas générer de QR
@@ -109,7 +109,7 @@ namespace examencsharp.Controllers
         }
 
         // API Vérification GET /Vote/Verify/{qrCode}
-        [HttpGet]
+        [HttpGet("Vote/Verify/{token}")]
         public async Task<IActionResult> Verify(string id)
         {
             if (string.IsNullOrEmpty(id))

@@ -77,7 +77,7 @@ namespace examencsharp.Controllers
 
             // Seul un Citoyen peut accéder à cette page
             var role = HttpContext.Session.GetString("role");
-            if (role != "Citoyen")
+            if (role != "Utilisateur")
                 return RedirectToAction("Index", "Home");
 
             // Vérifier qu'il n'a pas déjà un profil citoyen
@@ -99,7 +99,7 @@ namespace examencsharp.Controllers
             if (!EstConnecte()) return RedirectToAction("Login", "Account");
 
             var role = HttpContext.Session.GetString("role");
-            if (role != "Citoyen")
+            if (role != "Utilisateur")
                 return RedirectToAction("Index", "Home");
 
             // Récupérer l'userId depuis la session automatiquement
@@ -157,4 +157,3 @@ namespace examencsharp.Controllers
         }
     }
 }
-

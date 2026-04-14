@@ -42,7 +42,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @if (Context.Session.GetString("role") == "Citoyen" &&
+                        @if (Context.Session.GetString("role") == "Utilisateur" &&
                             Context.Session.GetInt32("userId") == c.UtilisateurId)
                         {
                             <img src="/Vote/GenerateQR/@c.Id" width="250" />
