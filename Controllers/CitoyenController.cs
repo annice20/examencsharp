@@ -131,29 +131,37 @@ namespace examencsharp.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
-        {
-            if (!EstConnecte()) return RedirectToAction("Login", "Account");
-            var citoyen = await _db.Citoyens.FindAsync(id);
-            if (citoyen != null)
-            {
-                _db.Citoyens.Remove(citoyen);
-                await _db.SaveChangesAsync();
-            }
-            return RedirectToAction(nameof(Index));
-        }
+public async Task<IActionResult> Delete(int id)
+{
+    if (!EstConnecte()) return RedirectToAction("Login", "Account");
 
-        public async Task<IActionResult> FixTokens()
-        {
-            var citoyens = _db.Citoyens
-                .Where(c => c.QRCodeToken == null || c.QRCodeToken == "")
-                .ToList();
+    var citoyen = await _db.Citoyens.FindAsync(id);
+    if (citoyen == null)
+        return RedirectToAction(nameof(Index));
 
-            foreach (var c in citoyens)
-                c.QRCodeToken = Guid.NewGuid().ToString();
+   
+    var cinRequests = _db.CinRequests.Where(r => r.CitoyenId == id);
+    _db.CinRequests.RemoveRange(cinRequests);
 
-            await _db.SaveChangesAsync();
-            return Content($"{citoyens.Count} tokens générés avec succès !");
-        }
+    
+    var votes = _db.Votes.Where(v => v.CitoyenId == id);
+    _db.Votes.RemoveRange(votes);
+
+    
+    _db.Citoyens.Remove(citoyen);
+
+    await _db.SaveChangesAsync();
+    return RedirectToAction(nameof(Index));
+}
+
+[HttpGet("debug-session")]
+public IActionResult DebugSession()
+{
+    return Ok(new {
+        user   = HttpContext.Session.GetString("user"),
+        role   = HttpContext.Session.GetString("role"),
+        userId = HttpContext.Session.GetInt32("userId")
+    });
+}
     }
 }

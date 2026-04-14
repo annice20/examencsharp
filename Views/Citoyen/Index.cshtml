@@ -28,8 +28,6 @@
                     <td>@c.CIN</td>
                     <td>@c.Fokontany?.NomFokontany</td>
                     <td>
-                        <a asp-action="Details" asp-route-id="@c.Id"
-                           class="btn btn-sm btn-outline-success">👁</a>
                         <a asp-action="Edit" asp-route-id="@c.Id"
                            class="btn btn-sm btn-outline-primary">✏️</a>
                         <form asp-action="Delete" asp-route-id="@c.Id"
@@ -48,10 +46,9 @@
                             <img src="/Vote/GenerateQR/@c.Id" width="250" />
                         }
 
-                        @if (Context.Session.GetString("role") == "Admin")
+                        @if (Context.Session.GetString("role") == "Admin" &&
+                         Context.Session.GetInt32("userId") == c.UtilisateurId)
                         {
-                            <a asp-action="Details" asp-route-id="@c.Id"
-                            class="btn btn-sm btn-outline-success">👁</a>
                             <a asp-action="Edit" asp-route-id="@c.Id"
                             class="btn btn-sm btn-outline-primary">✏️</a>
                             <form asp-action="Delete" asp-route-id="@c.Id"
