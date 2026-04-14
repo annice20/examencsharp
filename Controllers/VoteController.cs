@@ -109,7 +109,7 @@ namespace examencsharp.Controllers
         }
 
         // API Vérification GET /Vote/Verify/{qrCode}
-        [HttpGet("Vote/Verify/{token}")]
+        [HttpGet]
         public async Task<IActionResult> Verify(string id)
         {
             if (string.IsNullOrEmpty(id))
